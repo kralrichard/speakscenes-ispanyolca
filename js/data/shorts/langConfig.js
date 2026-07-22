@@ -6,7 +6,7 @@
 export const LOCALE = 'es-ES';
 export const APP_LANG = 'İspanyolca';
 // localStorage namespace — MUST be unique per clone (same-origin hosting).
-export const APP_KEY = 'ss-es';
+export const APP_KEY = 'ss-es-v2';
 
 export const FUNCTION_WORDS = [
   'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'y', 'o', 'u', 'a', 'al',
