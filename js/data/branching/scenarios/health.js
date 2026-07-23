@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=5';
+import { createScenario } from '../scenarioSchema.js?v=6';
 
 // NOTE: These are fictional language-learning conversations. They never give
 // real medical advice or diagnoses — the NPC always defers to real care.
@@ -6,102 +6,102 @@ import { createScenario } from '../scenarioSchema.js?v=5';
 // ── Hospital visit (A2) ─────────────────────────────────────────────────────
 export const hospitalVisit = createScenario({
   id: 'hospital-visit',
-  title: 'A visit to the doctor',
+  title: 'Una visita al médico',
   titleTr: 'Doktora bir ziyaret',
   environmentId: 'hospital', sceneType: 'hospital', level: 'A2',
-  goal: 'Describe how you feel and understand the next steps.',
+  goal: 'Describe cómo te sientes y entiende los próximos pasos.',
   goalTr: 'Nasıl hissettiğini anlat ve sonraki adımları anla.',
   npcIds: ['bennett'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'bennett', emotion: 'friendly',
-      text: 'Hello, come in and take a seat. What seems to be the problem today?',
+      text: 'Hola, pase y siéntese. ¿Qué le trae por aquí hoy?',
       translation: 'Merhaba, içeri gelin ve oturun. Bugün sorun nedir?',
       choices: [
         { id: 'headache', intentionTr: 'Baş ağrın olduğunu anlat', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'I’ve had a bad headache for two days.',
+          sentence: 'Llevo dos días con un fuerte dolor de cabeza.',
           translation: 'İki gündür şiddetli bir baş ağrım var.',
-          altAccepted: ['I have had a headache for two days', 'My head has been hurting for two days'],
+          altAccepted: ['Tengo dolor de cabeza desde hace dos días', 'Me duele la cabeza desde hace dos días'],
           next: 'when_started' },
         { id: 'stomach', intentionTr: 'Mide ağrın olduğunu anlat', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'My stomach has been hurting since yesterday.',
+          sentence: 'Me duele el estómago desde ayer.',
           translation: 'Dünden beri midem ağrıyor.',
-          altAccepted: ['I have stomach pain since yesterday', 'My stomach hurts since yesterday'],
+          altAccepted: ['Tengo dolor de estómago desde ayer', 'El estómago me duele desde ayer'],
           next: 'when_started' },
         { id: 'tired', intentionTr: 'Çok yorgun hissettiğini anlat', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'I’ve been feeling very tired and I can’t sleep well.',
+          sentence: 'Me siento muy cansado y no puedo dormir bien.',
           translation: 'Çok yorgun hissediyorum ve iyi uyuyamıyorum.',
-          altAccepted: ['I feel very tired and can’t sleep', 'I’m always tired and sleep badly'],
+          altAccepted: ['Estoy muy cansado y duermo mal', 'Siempre estoy cansado y duermo mal'],
           next: 'lifestyle' }
       ]
     },
     when_started: {
       id: 'when_started', speakerId: 'bennett', emotion: 'thinking',
-      text: 'I see. And have you taken anything for it, or is this the first time you’re treating it?',
+      text: 'Entiendo. ¿Y ha tomado algo, o es la primera vez que lo trata?',
       translation: 'Anlıyorum. Bunun için bir şey aldınız mı, yoksa ilk kez mi tedavi ediyorsunuz?',
       choices: [
         { id: 'took_nothing', intentionTr: 'Hiçbir şey almadığını söyle', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'No, I haven’t taken anything yet.',
+          sentence: 'No, todavía no he tomado nada.',
           translation: 'Hayır, henüz hiçbir şey almadım.',
-          altAccepted: ['I haven’t taken anything', 'No, nothing yet'],
+          altAccepted: ['No he tomado nada', 'No nada todavía'],
           next: 'advice' },
         { id: 'took_painkiller', intentionTr: 'Ağrı kesici aldığını ama işe yaramadığını söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'I took a painkiller, but it didn’t really help.',
+          sentence: 'Tomé un analgésico, pero la verdad no me ayudó mucho.',
           translation: 'Bir ağrı kesici aldım ama pek yardımcı olmadı.',
-          altAccepted: ['I took a painkiller but it didn’t help', 'A painkiller didn’t work'],
+          altAccepted: ['Tomé un analgésico pero no ayudó', 'Un analgésico no funcionó'],
           next: 'advice' }
       ]
     },
     lifestyle: {
       id: 'lifestyle', speakerId: 'bennett', emotion: 'curious',
-      text: 'Thank you for telling me. How much water do you drink, and how are your stress levels lately?',
+      text: 'Gracias por contármelo. ¿Cuánta agua bebe, y cómo anda de estrés últimamente?',
       translation: 'Söylediğiniz için teşekkürler. Ne kadar su içiyorsunuz ve son zamanlarda stres seviyeniz nasıl?',
       choices: [
         { id: 'stressed', intentionTr: 'Çok stresli olduğunu söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'I’ve been under a lot of stress at work recently.',
+          sentence: 'He tenido mucho estrés en el trabajo últimamente.',
           translation: 'Son zamanlarda işte çok stres altındaydım.',
-          altAccepted: ['I’ve had a lot of stress at work', 'Work has been very stressful lately'],
+          altAccepted: ['Tengo mucho estrés en el trabajo', 'El trabajo ha sido muy estresante últimamente'],
           next: 'advice' },
         { id: 'fine_otherwise', intentionTr: 'Bunun dışında iyi olduğunu söyle', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'Otherwise I feel fine, just tired all the time.',
+          sentence: 'Por lo demás me siento bien, solo cansado todo el tiempo.',
           translation: 'Bunun dışında iyiyim, sadece sürekli yorgunum.',
-          altAccepted: ['I feel fine otherwise', 'Apart from that I’m fine, just tired'],
+          altAccepted: ['Por lo demás estoy bien', 'Aparte de eso bien solo cansado'],
           next: 'advice' }
       ]
     },
     advice: {
       id: 'advice', speakerId: 'bennett', emotion: 'friendly',
-      text: 'Nothing here worries me seriously. I’ll write a note with some simple steps. Do you have any questions before you go?',
+      text: 'Nada de esto me preocupa seriamente. Le anotaré unos pasos sencillos. ¿Tiene alguna pregunta antes de irse?',
       translation: 'Burada beni ciddi anlamda endişelendiren bir şey yok. Size basit adımlar içeren bir not yazacağım. Gitmeden önce sorunuz var mı?',
       choices: [
         { id: 'ask_followup', intentionTr: 'Ne zaman geri dönmen gerektiğini sor', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'When should I come back if it doesn’t get better?',
+          sentence: '¿Cuándo debería volver si no mejora?',
           translation: 'Eğer düzelmezse ne zaman geri gelmeliyim?',
-          altAccepted: ['When should I come back if it continues', 'Should I return if it doesn’t improve'],
+          altAccepted: ['Cuándo vuelvo si sigue igual', 'Debo volver si no mejora'],
           next: 'followup_answer', relationshipEffect: 1 },
         { id: 'thanks', intentionTr: 'Teşekkür et ve ayrıl', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'No, that’s clear. Thank you very much, doctor.',
+          sentence: 'No, está claro. Muchas gracias, doctora.',
           translation: 'Hayır, açık. Çok teşekkür ederim, doktor.',
-          altAccepted: ['That’s clear, thank you doctor', 'No questions, thanks a lot'],
+          altAccepted: ['Está claro gracias doctora', 'Sin preguntas muchas gracias'],
           next: 'end_clear' }
       ]
     },
     followup_answer: {
       id: 'followup_answer', speakerId: 'bennett', emotion: 'happy',
-      text: 'Good question. If there’s no improvement in three days, book another appointment. Take care of yourself.',
+      text: 'Buena pregunta. Si no hay mejora en tres días, pida otra cita. Cuídese mucho.',
       translation: 'İyi soru. Üç günde iyileşme olmazsa yeni bir randevu alın. Kendinize iyi bakın.',
       next: 'end_thorough'
     }
   },
   endings: {
-    end_clear: { id: 'end_clear', kind: 'success', title: 'Clearly explained', titleTr: 'Açıkça anlatıldı',
-      text: 'You described your symptoms clearly and understood the advice. A calm, successful visit.',
+    end_clear: { id: 'end_clear', kind: 'success', title: 'Explicado con claridad', titleTr: 'Açıkça anlatıldı',
+      text: 'Describiste tus síntomas con claridad y entendiste el consejo. Una visita tranquila y exitosa.',
       translation: 'Belirtilerini net anlattın ve tavsiyeyi anladın. Sakin, başarılı bir ziyaret.',
       coins: 10 },
-    end_thorough: { id: 'end_thorough', kind: 'excellent', title: 'A thorough visit', titleTr: 'Kapsamlı bir ziyaret',
-      text: 'You not only explained yourself but asked a smart follow-up question. That’s exactly how to handle a doctor’s visit in English.',
-      translation: 'Sadece kendini anlatmadın, akıllıca bir takip sorusu da sordun. Bir doktor ziyaretini İngilizcede tam da böyle halledersin.',
+    end_thorough: { id: 'end_thorough', kind: 'excellent', title: 'Una visita completa', titleTr: 'Kapsamlı bir ziyaret',
+      text: 'No solo te explicaste, también hiciste una pregunta de seguimiento inteligente. Así se maneja una visita médica en español.',
+      translation: 'Sadece kendini anlatmadın, akıllıca bir takip sorusu da sordun. Bir doktor ziyaretini İspanyolcada tam da böyle halledersin.',
       relationshipEffect: 1, coins: 14 }
   }
 });
@@ -109,106 +109,106 @@ export const hospitalVisit = createScenario({
 // ── Pharmacy visit (A2) ─────────────────────────────────────────────────────
 export const pharmacyVisit = createScenario({
   id: 'pharmacy-visit',
-  title: 'At the pharmacy',
+  title: 'En la farmacia',
   titleTr: 'Eczanede',
   environmentId: 'pharmacy', sceneType: 'retail', level: 'A2',
-  goal: 'Get something for a cold and learn how to take it.',
+  goal: 'Consigue algo para el resfriado y aprende cómo tomarlo.',
   goalTr: 'Soğuk algınlığı için bir şey al ve nasıl kullanacağını öğren.',
   npcIds: ['fatima'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'fatima', emotion: 'friendly',
-      text: 'Hello! How can I help you today?',
+      text: '¡Hola! ¿En qué puedo ayudarle hoy?',
       translation: 'Merhaba! Bugün size nasıl yardımcı olabilirim?',
       choices: [
         { id: 'cold', intentionTr: 'Soğuk algınlığı için bir şey iste', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Hi, I have a cold. Could you recommend something?',
+          sentence: 'Hola, estoy resfriado. ¿Me podría recomendar algo?',
           translation: 'Merhaba, üşüttüm. Bir şey önerebilir misiniz?',
-          altAccepted: ['I have a cold, can you recommend something', 'Do you have something for a cold'],
+          altAccepted: ['Estoy resfriado me recomienda algo', 'Tiene algo para el resfriado'],
           next: 'symptoms' },
         { id: 'prescription', intentionTr: 'Reçeteni vermek istediğini söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'I have a prescription I’d like to fill, please.',
+          sentence: 'Tengo una receta que me gustaría preparar, por favor.',
           translation: 'Doldurtmak istediğim bir reçetem var, lütfen.',
-          altAccepted: ['I’d like to fill this prescription', 'Can you fill this prescription'],
+          altAccepted: ['Quisiera preparar esta receta', 'Me puede preparar esta receta'],
           next: 'prescription_node' }
       ]
     },
     symptoms: {
       id: 'symptoms', speakerId: 'fatima', emotion: 'curious',
-      text: 'Sorry to hear that. Do you mainly have a sore throat, a cough, or a blocked nose?',
+      text: 'Vaya, lo siento. ¿Tiene sobre todo dolor de garganta, tos, o la nariz tapada?',
       translation: 'Duyduğuma üzüldüm. Daha çok boğaz ağrınız mı, öksürüğünüz mü yoksa burun tıkanıklığınız mı var?',
       choices: [
         { id: 'throat', intentionTr: 'Boğazının ağrıdığını söyle', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'Mostly a sore throat and a bit of a cough.',
+          sentence: 'Sobre todo dolor de garganta y un poco de tos.',
           translation: 'Çoğunlukla boğaz ağrısı ve biraz öksürük.',
-          altAccepted: ['A sore throat and a little cough', 'Mainly my throat hurts, and a small cough'],
+          altAccepted: ['Dolor de garganta y algo de tos', 'Más que nada la garganta y toso un poco'],
           next: 'recommend' },
         { id: 'nose', intentionTr: 'Burnunun tıkalı olduğunu söyle', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'My nose is really blocked and I keep sneezing.',
+          sentence: 'Tengo la nariz muy tapada y no paro de estornudar.',
           translation: 'Burnum çok tıkalı ve sürekli hapşırıyorum.',
-          altAccepted: ['My nose is blocked and I sneeze a lot', 'A very blocked nose and lots of sneezing'],
+          altAccepted: ['La nariz tapada y estornudo mucho', 'Nariz muy tapada y muchos estornudos'],
           next: 'recommend' }
       ]
     },
     recommend: {
       id: 'recommend', speakerId: 'fatima', emotion: 'friendly',
-      text: 'This syrup should help. Take one spoon three times a day, after meals. Do you have any allergies I should know about?',
+      text: 'Este jarabe debería ayudar. Tome una cucharada tres veces al día, después de las comidas. ¿Tiene alguna alergia que deba saber?',
       translation: 'Bu şurup yardımcı olmalı. Günde üç kez, yemeklerden sonra bir kaşık alın. Bilmem gereken bir alerjiniz var mı?',
       choices: [
         { id: 'no_allergy', intentionTr: 'Alerjin olmadığını söyle', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'No allergies. Should I take it with water?',
+          sentence: 'Sin alergias. ¿Lo tomo con agua?',
           translation: 'Alerjim yok. Suyla mı almalıyım?',
-          altAccepted: ['No allergies, do I take it with water', 'No, none. With water?'],
+          altAccepted: ['Sin alergias lo tomo con agua', 'No ninguna con agua'],
           next: 'instructions', relationshipEffect: 1 },
         { id: 'ask_drowsy', intentionTr: 'Uyku yapıp yapmadığını sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'No allergies. Will this make me drowsy? I have to drive.',
+          sentence: 'Sin alergias. ¿Esto da sueño? Tengo que conducir.',
           translation: 'Alerjim yok. Bu beni uyuşuk yapar mı? Araç kullanmam gerekiyor.',
-          altAccepted: ['Will it make me sleepy, I have to drive', 'Does this cause drowsiness'],
+          altAccepted: ['Da sueño tengo que conducir', 'Esto causa somnolencia'],
           next: 'drowsy_answer', relationshipEffect: 1 }
       ]
     },
     prescription_node: {
       id: 'prescription_node', speakerId: 'fatima', emotion: 'neutral',
-      text: 'Thank you. It’ll take about ten minutes to prepare. Would you like to wait, or come back later?',
+      text: 'Gracias. Tardará unos diez minutos en estar lista. ¿Quiere esperar o volver más tarde?',
       translation: 'Teşekkürler. Hazırlaması yaklaşık on dakika sürer. Beklemek mi istersiniz yoksa sonra mı gelirsiniz?',
       choices: [
         { id: 'wait', intentionTr: 'Beklemeyi tercih et', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'I’ll wait, thank you.',
+          sentence: 'Espero aquí, gracias.',
           translation: 'Beklerim, teşekkürler.',
-          altAccepted: ['I’ll wait here thanks', 'I can wait'],
+          altAccepted: ['Espero aquí mismo gracias', 'Puedo esperar'],
           next: 'end_prescription' },
         { id: 'come_back', intentionTr: 'Sonra geleceğini söyle', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'I’ll come back in twenty minutes, thanks.',
+          sentence: 'Vuelvo en veinte minutos, gracias.',
           translation: 'Yirmi dakikaya geri gelirim, teşekkürler.',
-          altAccepted: ['I’ll come back later', 'I’ll return in twenty minutes'],
+          altAccepted: ['Vuelvo más tarde', 'Regreso en veinte minutos'],
           next: 'end_prescription' }
       ]
     },
     instructions: {
       id: 'instructions', speakerId: 'fatima', emotion: 'happy',
-      text: 'Water is fine. Finish the whole bottle even if you feel better. Feel well soon!',
+      text: 'Con agua está bien. Termine todo el frasco aunque se sienta mejor. ¡Que se mejore pronto!',
       translation: 'Su uygun. Kendinizi iyi hissetseniz bile şişeyi bitirin. Geçmiş olsun!',
       next: 'end_helped'
     },
     drowsy_answer: {
       id: 'drowsy_answer', speakerId: 'fatima', emotion: 'concerned',
-      text: 'Good that you asked — this one can cause drowsiness. Take the non-drowsy version instead, one tablet in the morning.',
+      text: 'Qué bien que pregunte — este puede dar sueño. Lleve mejor la versión que no da somnolencia, una pastilla por la mañana.',
       translation: 'Sorman iyi oldu — bu uyku yapabilir. Onun yerine uyku yapmayan türü al, sabah bir tablet.',
       next: 'end_careful'
     }
   },
   endings: {
-    end_helped: { id: 'end_helped', kind: 'success', title: 'Sorted out', titleTr: 'Halledildi',
-      text: 'You explained your symptoms and understood how to take the medicine. Simple and clear.',
+    end_helped: { id: 'end_helped', kind: 'success', title: 'Resuelto', titleTr: 'Halledildi',
+      text: 'Explicaste tus síntomas y entendiste cómo tomar la medicina. Simple y claro.',
       translation: 'Belirtilerini anlattın ve ilacı nasıl alacağını anladın. Basit ve net.',
       coins: 10 },
-    end_careful: { id: 'end_careful', kind: 'excellent', title: 'A smart question', titleTr: 'Akıllı bir soru',
-      text: 'By asking about side effects, you avoided a problem before driving. That’s exactly the right thing to ask a pharmacist.',
+    end_careful: { id: 'end_careful', kind: 'excellent', title: 'Una pregunta inteligente', titleTr: 'Akıllı bir soru',
+      text: 'Al preguntar por los efectos secundarios, evitaste un problema antes de conducir. Eso es exactamente lo que hay que preguntarle a una farmacéutica.',
       translation: 'Yan etkileri sorarak araç kullanmadan önce bir sorunu önledin. Bir eczacıya sorulacak tam da doğru şey.',
       relationshipEffect: 1, coins: 14 },
-    end_prescription: { id: 'end_prescription', kind: 'success', title: 'Prescription filled', titleTr: 'Reçete hazırlandı',
-      text: 'You handled the prescription politely and clearly. All done.',
+    end_prescription: { id: 'end_prescription', kind: 'success', title: 'Receta preparada', titleTr: 'Reçete hazırlandı',
+      text: 'Gestionaste la receta con cortesía y claridad. Todo listo.',
       translation: 'Reçeteyi kibar ve net biçimde hallettin. Her şey tamam.',
       coins: 8 }
   }

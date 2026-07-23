@@ -2,325 +2,325 @@
 // Quick-Practice phrasebook — the "easy way" to add lots of content at scale.
 //
 // Instead of authoring a full branching graph, each entry is one compact
-// [english, turkish] tuple grouped by place → topic → CEFR level. A tiny
+// [spanish, turkish] tuple grouped by place → topic → CEFR level. A tiny
 // builder flattens them into practice items the Quick Practice screen scores
 // with the SAME speech recognizer + scorer + TTS as Story Mode. Adding 20 more
 // phrases is literally 20 more one-line tuples — no engine or UI changes.
 //
-// PhraseItem = { id, en, tr, level, locationId, topic }
+// PhraseItem = { id, en, tr, level, locationId, topic }  (`en` = target lang)
 // ============================================================================
 
-// place → topic → { LEVEL: [[en, tr], ...] }
+// place → topic → { LEVEL: [[es, tr], ...] }
 const RAW = {
   hotel: {
-    'Check-in & booking': {
+    'Check-in & rezervasyon': {
       A1: [
-        ['I have a reservation.', 'Bir rezervasyonum var.'],
-        ['My name is Alex Turner.', 'Adım Alex Turner.'],
-        ['Here is my passport.', 'İşte pasaportum.'],
-        ['A room for two nights, please.', 'İki geceliğine bir oda, lütfen.']
+        ['Tengo una reserva.', 'Bir rezervasyonum var.'],
+        ['Me llamo Alex Turner.', 'Adım Alex Turner.'],
+        ['Aquí está mi pasaporte.', 'İşte pasaportum.'],
+        ['Una habitación para dos noches, por favor.', 'İki geceliğine bir oda, lütfen.']
       ],
       A2: [
-        ['I’d like to check in, please.', 'Giriş yapmak istiyorum, lütfen.'],
-        ['Is breakfast included in the price?', 'Kahvaltı fiyata dahil mi?'],
-        ['What time is check-out?', 'Çıkış saati kaçta?'],
-        ['Could I have a room with a view?', 'Manzaralı bir oda alabilir miyim?']
+        ['Quisiera registrarme, por favor.', 'Giriş yapmak istiyorum, lütfen.'],
+        ['¿El desayuno está incluido en el precio?', 'Kahvaltı fiyata dahil mi?'],
+        ['¿A qué hora es la salida?', 'Çıkış saati kaçta?'],
+        ['¿Podría tener una habitación con vistas?', 'Manzaralı bir oda alabilir miyim?']
       ],
       B1: [
-        ['Would it be possible to have a late check-out?', 'Geç çıkış mümkün olur mu?'],
-        ['Do you have any rooms available for tonight?', 'Bu gece için boş odanız var mı?']
+        ['¿Sería posible una salida tardía?', 'Geç çıkış mümkün olur mu?'],
+        ['¿Tienen habitaciones libres para esta noche?', 'Bu gece için boş odanız var mı?']
       ]
     },
-    'Problems & requests': {
+    'Sorunlar & istekler': {
       A2: [
-        ['Could I have some extra towels?', 'Biraz fazladan havlu alabilir miyim?'],
-        ['What is the Wi-Fi password?', 'Wi-Fi şifresi nedir?'],
-        ['The air conditioning isn’t working.', 'Klima çalışmıyor.']
+        ['¿Me pueden dar unas toallas extra?', 'Biraz fazladan havlu alabilir miyim?'],
+        ['¿Cuál es la contraseña del Wi-Fi?', 'Wi-Fi şifresi nedir?'],
+        ['El aire acondicionado no funciona.', 'Klima çalışmıyor.']
       ],
       B1: [
-        ['I’m afraid the room next door is very noisy.', 'Maalesef yan oda çok gürültülü.'],
-        ['My room hasn’t been cleaned yet.', 'Odam henüz temizlenmedi.'],
-        ['Could someone help me with my luggage?', 'Bavulumla biri yardım edebilir mi?']
+        ['Me temo que la habitación de al lado es muy ruidosa.', 'Maalesef yan oda çok gürültülü.'],
+        ['Mi habitación todavía no se ha limpiado.', 'Odam henüz temizlenmedi.'],
+        ['¿Alguien podría ayudarme con el equipaje?', 'Bavulumla biri yardım edebilir mi?']
       ]
     }
   },
 
   airport: {
-    'Check-in & bags': {
+    'Check-in & bagaj': {
       A1: [
-        ['Here is my boarding pass.', 'İşte biniş kartım.'],
-        ['I have one bag to check in.', 'Check-in için bir bavulum var.'],
-        ['Where is the gate?', 'Kapı nerede?']
+        ['Aquí está mi tarjeta de embarque.', 'İşte biniş kartım.'],
+        ['Tengo una maleta para facturar.', 'Check-in için bir bavulum var.'],
+        ['¿Dónde está la puerta de embarque?', 'Kapı nerede?']
       ],
       A2: [
-        ['I’m checking in for the flight to Rome.', 'Roma uçuşu için check-in yapıyorum.'],
-        ['Is my luggage over the weight limit?', 'Bavulum ağırlık limitini aşıyor mu?'],
-        ['Could I have a window seat, please?', 'Cam kenarı koltuk alabilir miyim, lütfen?']
+        ['Estoy facturando para el vuelo a Roma.', 'Roma uçuşu için check-in yapıyorum.'],
+        ['¿Mi equipaje pasa el límite de peso?', 'Bavulum ağırlık limitini aşıyor mu?'],
+        ['¿Me da un asiento de ventanilla, por favor?', 'Cam kenarı koltuk alabilir miyim, lütfen?']
       ],
       B1: [
-        ['Is a digital boarding pass acceptable?', 'Dijital biniş kartı geçerli mi?'],
-        ['How much is the excess baggage fee?', 'Fazla bagaj ücreti ne kadar?']
+        ['¿Se acepta una tarjeta de embarque digital?', 'Dijital biniş kartı geçerli mi?'],
+        ['¿Cuánto cuesta la tarifa por exceso de equipaje?', 'Fazla bagaj ücreti ne kadar?']
       ]
     },
-    'Problems': {
+    'Sorunlar': {
       B1: [
-        ['My connecting flight was delayed.', 'Aktarma uçuşum rötar yaptı.'],
-        ['I think I’ve missed my flight.', 'Sanırım uçuşumu kaçırdım.'],
-        ['Could you put me on the next flight?', 'Beni bir sonraki uçağa alabilir misiniz?'],
-        ['My suitcase didn’t arrive on the belt.', 'Valizim banttan çıkmadı.']
+        ['Mi vuelo de conexión se retrasó.', 'Aktarma uçuşum rötar yaptı.'],
+        ['Creo que he perdido mi vuelo.', 'Sanırım uçuşumu kaçırdım.'],
+        ['¿Podría ponerme en el próximo vuelo?', 'Beni bir sonraki uçağa alabilir misiniz?'],
+        ['Mi maleta no salió por la cinta.', 'Valizim banttan çıkmadı.']
       ],
       B2: [
-        ['Since the delay was your fault, I’d expect no rebooking fee.', 'Rötar sizin hatanız olduğu için yeniden rezervasyon ücreti beklemem.']
+        ['Como el retraso fue culpa suya, no esperaría ningún cargo por el cambio.', 'Rötar sizin hatanız olduğu için yeniden rezervasyon ücreti beklemem.']
       ]
     }
   },
 
   restaurant: {
-    'Ordering': {
+    'Sipariş verme': {
       A1: [
-        ['A table for two, please.', 'İki kişilik bir masa, lütfen.'],
-        ['Can I see the menu?', 'Menüyü görebilir miyim?'],
-        ['I’ll have the chicken, please.', 'Tavuğu alacağım, lütfen.'],
-        ['Just water for me, thanks.', 'Bana sadece su, teşekkürler.']
+        ['Una mesa para dos, por favor.', 'İki kişilik bir masa, lütfen.'],
+        ['¿Puedo ver el menú?', 'Menüyü görebilir miyim?'],
+        ['Voy a tomar el pollo, por favor.', 'Tavuğu alacağım, lütfen.'],
+        ['Solo agua para mí, gracias.', 'Bana sadece su, teşekkürler.']
       ],
       A2: [
-        ['What would you recommend?', 'Ne önerirsiniz?'],
-        ['Could we have a few more minutes?', 'Birkaç dakika daha alabilir miyiz?'],
-        ['Does this dish contain nuts?', 'Bu yemekte fındık/fıstık var mı?']
+        ['¿Qué me recomienda?', 'Ne önerirsiniz?'],
+        ['¿Nos da unos minutos más?', 'Birkaç dakika daha alabilir miyiz?'],
+        ['¿Este plato lleva frutos secos?', 'Bu yemekte fındık/fıstık var mı?']
       ],
       B1: [
-        ['I’m allergic to seafood, so I’ll avoid that.', 'Deniz ürünlerine alerjim var, o yüzden ondan uzak duracağım.']
+        ['Soy alérgico al marisco, así que lo evitaré.', 'Deniz ürünlerine alerjim var, o yüzden ondan uzak duracağım.']
       ]
     },
-    'Paying & problems': {
+    'Ödeme & sorunlar': {
       A2: [
-        ['Could we have the bill, please?', 'Hesabı alabilir miyiz, lütfen?'],
-        ['Can I pay by card?', 'Kartla ödeyebilir miyim?'],
-        ['Keep the change.', 'Üstü kalsın.']
+        ['¿Nos trae la cuenta, por favor?', 'Hesabı alabilir miyiz, lütfen?'],
+        ['¿Puedo pagar con tarjeta?', 'Kartla ödeyebilir miyim?'],
+        ['Quédese con el cambio.', 'Üstü kalsın.']
       ],
       B1: [
-        ['I’m sorry, but this isn’t what I ordered.', 'Üzgünüm ama bu sipariş ettiğim şey değil.'],
-        ['The food is a little cold, I’m afraid.', 'Maalesef yemek biraz soğuk.']
+        ['Lo siento, pero esto no es lo que pedí.', 'Üzgünüm ama bu sipariş ettiğim şey değil.'],
+        ['Me temo que la comida está un poco fría.', 'Maalesef yemek biraz soğuk.']
       ]
     }
   },
 
   cafe: {
-    'At the counter': {
+    'Tezgahta': {
       A1: [
-        ['A coffee, please.', 'Bir kahve, lütfen.'],
-        ['Can I have a cup of tea?', 'Bir fincan çay alabilir miyim?'],
-        ['To take away, please.', 'Dışarı alacağım, lütfen.'],
-        ['How much is it?', 'Ne kadar?']
+        ['Un café, por favor.', 'Bir kahve, lütfen.'],
+        ['¿Me da una taza de té?', 'Bir fincan çay alabilir miyim?'],
+        ['Para llevar, por favor.', 'Dışarı alacağım, lütfen.'],
+        ['¿Cuánto es?', 'Ne kadar?']
       ],
       A2: [
-        ['I’ll have a large latte, please.', 'Büyük boy bir latte alacağım, lütfen.'],
-        ['Do you have any oat milk?', 'Yulaf sütünüz var mı?'],
-        ['Could I get that with less sugar?', 'Onu daha az şekerli alabilir miyim?']
+        ['Voy a tomar un latte grande, por favor.', 'Büyük boy bir latte alacağım, lütfen.'],
+        ['¿Tienen leche de avena?', 'Yulaf sütünüz var mı?'],
+        ['¿Me lo puede poner con menos azúcar?', 'Onu daha az şekerli alabilir miyim?']
       ]
     },
-    'Meeting people': {
+    'İnsanlarla tanışma': {
       B1: [
-        ['It’s been ages — how have you been?', 'Çok uzun zaman oldu — nasılsın?'],
-        ['What a coincidence to see you here!', 'Seni burada görmek ne tesadüf!'],
-        ['Shall we grab a table and catch up?', 'Bir masa tutup sohbet edelim mi?']
+        ['¡Cuánto tiempo! ¿Cómo has estado?', 'Çok uzun zaman oldu — nasılsın?'],
+        ['¡Qué casualidad verte aquí!', 'Seni burada görmek ne tesadüf!'],
+        ['¿Buscamos una mesa y nos ponemos al día?', 'Bir masa tutup sohbet edelim mi?']
       ]
     }
   },
 
   hospital: {
-    'Describing symptoms': {
+    'Belirtileri anlatma': {
       A1: [
-        ['I don’t feel well.', 'Kendimi iyi hissetmiyorum.'],
-        ['I have a headache.', 'Başım ağrıyor.'],
-        ['My throat hurts.', 'Boğazım ağrıyor.']
+        ['No me siento bien.', 'Kendimi iyi hissetmiyorum.'],
+        ['Me duele la cabeza.', 'Başım ağrıyor.'],
+        ['Me duele la garganta.', 'Boğazım ağrıyor.']
       ],
       A2: [
-        ['I’ve had a fever since yesterday.', 'Dünden beri ateşim var.'],
-        ['The pain started two days ago.', 'Ağrı iki gün önce başladı.'],
-        ['I feel dizzy when I stand up.', 'Ayağa kalkınca başım dönüyor.']
+        ['Tengo fiebre desde ayer.', 'Dünden beri ateşim var.'],
+        ['El dolor empezó hace dos días.', 'Ağrı iki gün önce başladı.'],
+        ['Me mareo cuando me levanto.', 'Ayağa kalkınca başım dönüyor.']
       ],
       B1: [
-        ['I’ve been feeling exhausted and I can’t sleep.', 'Çok bitkin hissediyorum ve uyuyamıyorum.'],
-        ['I took a painkiller, but it didn’t help.', 'Ağrı kesici aldım ama işe yaramadı.']
+        ['Me siento agotado y no puedo dormir.', 'Çok bitkin hissediyorum ve uyuyamıyorum.'],
+        ['Tomé un analgésico, pero no me ayudó.', 'Ağrı kesici aldım ama işe yaramadı.']
       ]
     },
-    'Appointments': {
+    'Randevular': {
       A2: [
-        ['I’d like to make an appointment.', 'Randevu almak istiyorum.'],
-        ['When should I come back?', 'Ne zaman geri gelmeliyim?']
+        ['Quisiera pedir una cita.', 'Randevu almak istiyorum.'],
+        ['¿Cuándo debería volver?', 'Ne zaman geri gelmeliyim?']
       ]
     }
   },
 
   pharmacy: {
-    'Getting medicine': {
+    'İlaç alma': {
       A1: [
-        ['I have a cold.', 'Üşüttüm.'],
-        ['Do you have something for a cough?', 'Öksürük için bir şeyiniz var mı?']
+        ['Estoy resfriado.', 'Üşüttüm.'],
+        ['¿Tiene algo para la tos?', 'Öksürük için bir şeyiniz var mı?']
       ],
       A2: [
-        ['Could you recommend something for a sore throat?', 'Boğaz ağrısı için bir şey önerebilir misiniz?'],
-        ['How often should I take this?', 'Bunu ne sıklıkta almalıyım?'],
-        ['I’d like to fill this prescription.', 'Bu reçeteyi doldurtmak istiyorum.']
+        ['¿Me recomienda algo para el dolor de garganta?', 'Boğaz ağrısı için bir şey önerebilir misiniz?'],
+        ['¿Cada cuánto debo tomarlo?', 'Bunu ne sıklıkta almalıyım?'],
+        ['Quisiera preparar esta receta.', 'Bu reçeteyi doldurtmak istiyorum.']
       ],
       B1: [
-        ['Will this medicine make me drowsy?', 'Bu ilaç beni uykulu yapar mı?'],
-        ['Is it safe to take with food?', 'Yemekle almak güvenli mi?']
+        ['¿Este medicamento me dará sueño?', 'Bu ilaç beni uykulu yapar mı?'],
+        ['¿Es seguro tomarlo con comida?', 'Yemekle almak güvenli mi?']
       ]
     }
   },
 
   supermarket: {
-    'Finding & buying': {
+    'Bulma & satın alma': {
       A1: [
-        ['Where is the milk?', 'Süt nerede?'],
-        ['How much is this?', 'Bu ne kadar?'],
-        ['Do you have any bread?', 'Ekmeğiniz var mı?']
+        ['¿Dónde está la leche?', 'Süt nerede?'],
+        ['¿Cuánto cuesta esto?', 'Bu ne kadar?'],
+        ['¿Tienen pan?', 'Ekmeğiniz var mı?']
       ],
       A2: [
-        ['Which aisle are the eggs in?', 'Yumurtalar hangi koridorda?'],
-        ['Do you sell gluten-free products?', 'Glutensiz ürün satıyor musunuz?'],
-        ['Can I pay by card here?', 'Burada kartla ödeyebilir miyim?']
+        ['¿En qué pasillo están los huevos?', 'Yumurtalar hangi koridorda?'],
+        ['¿Venden productos sin gluten?', 'Glutensiz ürün satıyor musunuz?'],
+        ['¿Puedo pagar con tarjeta aquí?', 'Burada kartla ödeyebilir miyim?']
       ],
       B1: [
-        ['Excuse me, I think I was charged twice for this.', 'Pardon, sanırım bunun için iki kez ücret alındı.']
+        ['Perdone, creo que me cobraron esto dos veces.', 'Pardon, sanırım bunun için iki kez ücret alındı.']
       ]
     }
   },
 
   clothing: {
-    'Shopping for clothes': {
+    'Kıyafet alışverişi': {
       A1: [
-        ['Can I try this on?', 'Bunu deneyebilir miyim?'],
-        ['Do you have this in medium?', 'Bunun orta bedeni var mı?'],
-        ['How much is this jacket?', 'Bu ceket ne kadar?']
+        ['¿Puedo probármelo?', 'Bunu deneyebilir miyim?'],
+        ['¿Lo tienen en talla M?', 'Bunun orta bedeni var mı?'],
+        ['¿Cuánto cuesta esta chaqueta?', 'Bu ceket ne kadar?']
       ],
       A2: [
-        ['Do you have this in a different colour?', 'Bunun farklı bir rengi var mı?'],
-        ['This is a little too tight.', 'Bu biraz fazla dar.'],
-        ['Where are the fitting rooms?', 'Deneme kabinleri nerede?']
+        ['¿Lo tienen en otro color?', 'Bunun farklı bir rengi var mı?'],
+        ['Me queda un poco apretado.', 'Bu biraz fazla dar.'],
+        ['¿Dónde están los probadores?', 'Deneme kabinleri nerede?']
       ],
       B1: [
-        ['I’d like to return this — it doesn’t fit.', 'Bunu iade etmek istiyorum — bana olmadı.'],
-        ['Can I exchange it for a larger size?', 'Daha büyük bir bedenle değiştirebilir miyim?']
+        ['Quisiera devolver esto — no me queda bien.', 'Bunu iade etmek istiyorum — bana olmadı.'],
+        ['¿Puedo cambiarlo por una talla más grande?', 'Daha büyük bir bedenle değiştirebilir miyim?']
       ]
     }
   },
 
   train: {
-    'Tickets & travel': {
+    'Biletler & seyahat': {
       A1: [
-        ['A ticket to London, please.', 'Londra’ya bir bilet, lütfen.'],
-        ['Which platform is it?', 'Hangi peron?'],
-        ['What time does the train leave?', 'Tren saat kaçta kalkıyor?']
+        ['Un billete a Londres, por favor.', 'Londra’ya bir bilet, lütfen.'],
+        ['¿Qué andén es?', 'Hangi peron?'],
+        ['¿A qué hora sale el tren?', 'Tren saat kaçta kalkıyor?']
       ],
       A2: [
-        ['A return ticket, please.', 'Gidiş-dönüş bilet, lütfen.'],
-        ['When is the next train to the city?', 'Şehre bir sonraki tren ne zaman?'],
-        ['Is this seat taken?', 'Bu koltuk dolu mu?']
+        ['Un billete de ida y vuelta, por favor.', 'Gidiş-dönüş bilet, lütfen.'],
+        ['¿Cuándo es el próximo tren a la ciudad?', 'Şehre bir sonraki tren ne zaman?'],
+        ['¿Está ocupado este asiento?', 'Bu koltuk dolu mu?']
       ],
       B1: [
-        ['Is there a student discount available?', 'Öğrenci indirimi var mı?'],
-        ['I think I got on the wrong train.', 'Sanırım yanlış trene bindim.']
+        ['¿Hay descuento de estudiante?', 'Öğrenci indirimi var mı?'],
+        ['Creo que me subí al tren equivocado.', 'Sanırım yanlış trene bindim.']
       ]
     }
   },
 
   taxi: {
-    'Taking a taxi': {
+    'Taksiye binme': {
       A1: [
-        ['To the airport, please.', 'Havalimanına, lütfen.'],
-        ['How much is it?', 'Ne kadar?'],
-        ['Stop here, please.', 'Burada durun, lütfen.']
+        ['Al aeropuerto, por favor.', 'Havalimanına, lütfen.'],
+        ['¿Cuánto es?', 'Ne kadar?'],
+        ['Pare aquí, por favor.', 'Burada durun, lütfen.']
       ],
       A2: [
-        ['Could you take me to the Sunrise Hotel?', 'Beni Sunrise Otel’e götürür müsünüz?'],
-        ['I’m in a bit of a hurry.', 'Biraz acelem var.'],
-        ['Can I pay by card?', 'Kartla ödeyebilir miyim?']
+        ['¿Me puede llevar al hotel Sunrise?', 'Beni Sunrise Otel’e götürür müsünüz?'],
+        ['Tengo un poco de prisa.', 'Biraz acelem var.'],
+        ['¿Puedo pagar con tarjeta?', 'Kartla ödeyebilir miyim?']
       ],
       B1: [
-        ['Could you take the fastest route, please?', 'En hızlı yoldan gider misiniz, lütfen?']
+        ['¿Podría tomar la ruta más rápida, por favor?', 'En hızlı yoldan gider misiniz, lütfen?']
       ]
     }
   },
 
   bank: {
-    'At the bank': {
+    'Bankada': {
       A2: [
-        ['I’d like to open an account.', 'Bir hesap açmak istiyorum.'],
-        ['I need to change some money.', 'Biraz para bozdurmam gerekiyor.'],
-        ['What is the exchange rate today?', 'Bugün döviz kuru nedir?']
+        ['Quisiera abrir una cuenta.', 'Bir hesap açmak istiyorum.'],
+        ['Necesito cambiar dinero.', 'Biraz para bozdurmam gerekiyor.'],
+        ['¿Cuál es el tipo de cambio hoy?', 'Bugün döviz kuru nedir?']
       ],
       B1: [
-        ['I think I’ve lost my bank card.', 'Sanırım banka kartımı kaybettim.'],
-        ['There’s a payment I don’t recognize.', 'Tanımadığım bir ödeme var.'],
-        ['Could you block my card, please?', 'Kartımı bloke edebilir misiniz, lütfen?']
+        ['Creo que he perdido mi tarjeta del banco.', 'Sanırım banka kartımı kaybettim.'],
+        ['Hay un pago que no reconozco.', 'Tanımadığım bir ödeme var.'],
+        ['¿Podría bloquear mi tarjeta, por favor?', 'Kartımı bloke edebilir misiniz, lütfen?']
       ]
     }
   },
 
   police: {
-    'Reporting things': {
+    'Bildirimde bulunma': {
       B1: [
-        ['I’d like to report a lost phone.', 'Kayıp bir telefon bildirmek istiyorum.'],
-        ['I think my bag was stolen.', 'Sanırım çantam çalındı.'],
-        ['It happened about an hour ago.', 'Yaklaşık bir saat önce oldu.'],
-        ['Could I get a copy of the report?', 'Tutanağın bir kopyasını alabilir miyim?']
+        ['Quisiera denunciar un teléfono perdido.', 'Kayıp bir telefon bildirmek istiyorum.'],
+        ['Creo que me robaron el bolso.', 'Sanırım çantam çalındı.'],
+        ['Pasó hace una hora, más o menos.', 'Yaklaşık bir saat önce oldu.'],
+        ['¿Me pueden dar una copia de la denuncia?', 'Tutanağın bir kopyasını alabilir miyim?']
       ],
       B2: [
-        ['I’ll need this document for my insurance claim.', 'Bu belge sigorta talebim için gerekecek.']
+        ['Necesitaré este documento para la reclamación del seguro.', 'Bu belge sigorta talebim için gerekecek.']
       ]
     }
   },
 
   street: {
-    'Directions & small talk': {
+    'Yol tarifi & sohbet': {
       A1: [
-        ['Excuse me, where is the station?', 'Pardon, istasyon nerede?'],
-        ['Is it far from here?', 'Buraya uzak mı?'],
-        ['Thank you for your help.', 'Yardımın için teşekkürler.']
+        ['Perdone, ¿dónde está la estación?', 'Pardon, istasyon nerede?'],
+        ['¿Está lejos de aquí?', 'Buraya uzak mı?'],
+        ['Gracias por su ayuda.', 'Yardımın için teşekkürler.']
       ],
       A2: [
-        ['Could you tell me how to get to the museum?', 'Müzeye nasıl gideceğimi söyler misiniz?'],
-        ['Is there a pharmacy near here?', 'Buralarda bir eczane var mı?'],
-        ['Nice to meet you. I’m new here.', 'Tanıştığıma memnun oldum. Buraya yeniyim.']
+        ['¿Me puede decir cómo llegar al museo?', 'Müzeye nasıl gideceğimi söyler misiniz?'],
+        ['¿Hay una farmacia cerca de aquí?', 'Buralarda bir eczane var mı?'],
+        ['Mucho gusto. Soy nuevo aquí.', 'Tanıştığıma memnun oldum. Buraya yeniyim.']
       ],
       B1: [
-        ['Could you tell me where the nearest bank is?', 'En yakın bankanın nerede olduğunu söyler misiniz?'],
-        ['Would you like to join us for coffee?', 'Bize kahveye katılmak ister misin?']
+        ['¿Me podría decir dónde está el banco más cercano?', 'En yakın bankanın nerede olduğunu söyler misiniz?'],
+        ['¿Te gustaría tomar un café con nosotros?', 'Bize kahveye katılmak ister misin?']
       ]
     }
   },
 
   workplace: {
-    'Interviews & office': {
+    'Görüşmeler & ofis': {
       B1: [
-        ['Thank you for inviting me to the interview.', 'Görüşmeye davet ettiğiniz için teşekkürler.'],
-        ['I have three years of experience in this field.', 'Bu alanda üç yıllık deneyimim var.'],
-        ['Could you tell me more about the role?', 'Bu pozisyon hakkında biraz daha bilgi verir misiniz?']
+        ['Gracias por invitarme a la entrevista.', 'Görüşmeye davet ettiğiniz için teşekkürler.'],
+        ['Tengo tres años de experiencia en este campo.', 'Bu alanda üç yıllık deneyimim var.'],
+        ['¿Me podría contar más sobre el puesto?', 'Bu pozisyon hakkında biraz daha bilgi verir misiniz?']
       ],
       B2: [
-        ['I used to take on too much, but I’m learning to delegate.', 'Eskiden fazla iş üstlenirdim ama yetki devretmeyi öğreniyorum.'],
-        ['What does success look like in the first six months?', 'İlk altı ayda başarı neye benzer?'],
-        ['I think there’s been a misunderstanding — let me explain.', 'Sanırım bir yanlış anlaşılma oldu — açıklayayım.'],
-        ['Let’s sort this out together.', 'Bunu birlikte çözelim.']
+        ['Antes asumía demasiado, pero estoy aprendiendo a delegar.', 'Eskiden fazla iş üstlenirdim ama yetki devretmeyi öğreniyorum.'],
+        ['¿Cómo se ve el éxito en los primeros seis meses?', 'İlk altı ayda başarı neye benzer?'],
+        ['Creo que hubo un malentendido — déjeme explicar.', 'Sanırım bir yanlış anlaşılma oldu — açıklayayım.'],
+        ['Resolvamos esto juntos.', 'Bunu birlikte çözelim.']
       ]
     }
   },
 
   home: {
-    'Everyday home talk': {
+    'Günlük ev sohbeti': {
       A1: [
-        ['Good morning! Did you sleep well?', 'Günaydın! İyi uyudun mu?'],
-        ['What’s for breakfast?', 'Kahvaltıda ne var?'],
-        ['I’m still a bit tired.', 'Hâlâ biraz yorgunum.'],
-        ['See you later!', 'Sonra görüşürüz!']
+        ['¡Buenos días! ¿Dormiste bien?', 'Günaydın! İyi uyudun mu?'],
+        ['¿Qué hay de desayuno?', 'Kahvaltıda ne var?'],
+        ['Todavía estoy un poco cansado.', 'Hâlâ biraz yorgunum.'],
+        ['¡Hasta luego!', 'Sonra görüşürüz!']
       ],
       A2: [
-        ['What are your plans for today?', 'Bugün planların ne?'],
-        ['Do you want to go to the market together?', 'Birlikte pazara gitmek ister misin?'],
-        ['Can you help me with this, please?', 'Bunda bana yardım eder misin, lütfen?']
+        ['¿Qué planes tienes para hoy?', 'Bugün planların ne?'],
+        ['¿Quieres ir al mercado juntos?', 'Birlikte pazara gitmek ister misin?'],
+        ['¿Me ayudas con esto, por favor?', 'Bunda bana yardım eder misin, lütfen?']
       ]
     }
   }
@@ -330,190 +330,190 @@ const RAW = {
 // easy to scan; merged with RAW below. Adding more content = add more tuples.
 const RAW_EXTRA = {
   hotel: {
-    'More at reception': {
+    'Resepsiyonda dahası': {
       A2: [
-        ['Could you call me a taxi for eight o’clock?', 'Saat sekiz için bana bir taksi çağırır mısınız?'],
-        ['Is there a gym or a pool in the hotel?', 'Otelde spor salonu ya da havuz var mı?'],
-        ['What time does the restaurant open?', 'Restoran saat kaçta açılıyor?'],
-        ['Could I leave my bags here until noon?', 'Bavullarımı öğlene kadar burada bırakabilir miyim?']
+        ['¿Me podría pedir un taxi para las ocho?', 'Saat sekiz için bana bir taksi çağırır mısınız?'],
+        ['¿Hay gimnasio o piscina en el hotel?', 'Otelde spor salonu ya da havuz var mı?'],
+        ['¿A qué hora abre el restaurante?', 'Restoran saat kaçta açılıyor?'],
+        ['¿Puedo dejar mis maletas aquí hasta el mediodía?', 'Bavullarımı öğlene kadar burada bırakabilir miyim?']
       ],
       B1: [
-        ['I’d like to extend my stay by one night.', 'Konaklamamı bir gece uzatmak istiyorum.'],
-        ['Is there a shuttle service to the airport?', 'Havalimanına servis var mı?']
+        ['Quisiera extender mi estancia una noche más.', 'Konaklamamı bir gece uzatmak istiyorum.'],
+        ['¿Hay servicio de traslado al aeropuerto?', 'Havalimanına servis var mı?']
       ]
     }
   },
   airport: {
-    'Boarding & onboard': {
+    'Biniş & uçakta': {
       A2: [
-        ['Where is passport control?', 'Pasaport kontrolü nerede?'],
-        ['Has the flight to Paris started boarding?', 'Paris uçuşu binişe başladı mı?'],
-        ['Could I have a glass of water, please?', 'Bir bardak su alabilir miyim, lütfen?']
+        ['¿Dónde está el control de pasaportes?', 'Pasaport kontrolü nerede?'],
+        ['¿Ya empezó el embarque del vuelo a París?', 'Paris uçuşu binişe başladı mı?'],
+        ['¿Me da un vaso de agua, por favor?', 'Bir bardak su alabilir miyim, lütfen?']
       ],
       B1: [
-        ['I’m here on holiday for two weeks.', 'İki haftalığına tatil için buradayım.'],
-        ['I’ll be staying at a hotel in the city centre.', 'Şehir merkezindeki bir otelde kalacağım.']
+        ['Estoy aquí de vacaciones por dos semanas.', 'İki haftalığına tatil için buradayım.'],
+        ['Me alojaré en un hotel del centro.', 'Şehir merkezindeki bir otelde kalacağım.']
       ]
     }
   },
   restaurant: {
-    'Extra requests': {
+    'Ekstra istekler': {
       A2: [
-        ['Could we sit by the window?', 'Pencere kenarına oturabilir miyiz?'],
-        ['Can I have this without onions?', 'Bunu soğansız alabilir miyim?'],
-        ['Could I have the recipe? It’s delicious!', 'Tarifini alabilir miyim? Çok lezzetli!']
+        ['¿Podemos sentarnos junto a la ventana?', 'Pencere kenarına oturabilir miyiz?'],
+        ['¿Me lo puede poner sin cebolla?', 'Bunu soğansız alabilir miyim?'],
+        ['¿Me da la receta? ¡Está delicioso!', 'Tarifini alabilir miyim? Çok lezzetli!']
       ],
       B1: [
-        ['Everything was excellent, thank you.', 'Her şey mükemmeldi, teşekkürler.'],
-        ['Could we split the bill, please?', 'Hesabı bölüşebilir miyiz, lütfen?']
+        ['Todo estuvo excelente, gracias.', 'Her şey mükemmeldi, teşekkürler.'],
+        ['¿Podemos dividir la cuenta, por favor?', 'Hesabı bölüşebilir miyiz, lütfen?']
       ]
     }
   },
   cafe: {
-    'More at the café': {
+    'Kafede dahası': {
       A1: [
-        ['Is this seat free?', 'Bu koltuk boş mu?'],
-        ['Can I have a glass of water too?', 'Bir de bir bardak su alabilir miyim?']
+        ['¿Está libre este asiento?', 'Bu koltuk boş mu?'],
+        ['¿Me da también un vaso de agua?', 'Bir de bir bardak su alabilir miyim?']
       ],
       A2: [
-        ['Do you have any cakes today?', 'Bugün kekiniz var mı?'],
-        ['Could I get the Wi-Fi password?', 'Wi-Fi şifresini alabilir miyim?']
+        ['¿Tienen pasteles hoy?', 'Bugün kekiniz var mı?'],
+        ['¿Me puede dar la contraseña del Wi-Fi?', 'Wi-Fi şifresini alabilir miyim?']
       ]
     }
   },
   hospital: {
-    'At the clinic': {
+    'Klinikte': {
       A2: [
-        ['Do I need a prescription for this?', 'Bunun için reçeteye ihtiyacım var mı?'],
-        ['How long will the results take?', 'Sonuçlar ne kadar sürer?'],
-        ['Should I rest for a few days?', 'Birkaç gün dinlenmeli miyim?']
+        ['¿Necesito receta para esto?', 'Bunun için reçeteye ihtiyacım var mı?'],
+        ['¿Cuánto tardarán los resultados?', 'Sonuçlar ne kadar sürer?'],
+        ['¿Debería descansar unos días?', 'Birkaç gün dinlenmeli miyim?']
       ],
       B1: [
-        ['Is there anything I should avoid eating?', 'Yememem gereken bir şey var mı?']
+        ['¿Hay algo que debería evitar comer?', 'Yememem gereken bir şey var mı?']
       ]
     }
   },
   pharmacy: {
-    'More at the pharmacy': {
+    'Eczanede dahası': {
       A1: [
-        ['Do you have painkillers?', 'Ağrı kesiciniz var mı?'],
-        ['I need some plasters, please.', 'Biraz yara bandı gerekiyor, lütfen.']
+        ['¿Tienen analgésicos?', 'Ağrı kesiciniz var mı?'],
+        ['Necesito unas tiritas, por favor.', 'Biraz yara bandı gerekiyor, lütfen.']
       ],
       A2: [
-        ['Can I take this with other medicine?', 'Bunu başka ilaçla alabilir miyim?'],
-        ['Is there a version without sugar?', 'Şekersiz bir türü var mı?']
+        ['¿Puedo tomarlo con otros medicamentos?', 'Bunu başka ilaçla alabilir miyim?'],
+        ['¿Hay una versión sin azúcar?', 'Şekersiz bir türü var mı?']
       ]
     }
   },
   supermarket: {
-    'At the checkout': {
+    'Kasada': {
       A1: [
-        ['Do you have a bag?', 'Poşetiniz var mı?'],
-        ['Can I get a receipt?', 'Fiş alabilir miyim?']
+        ['¿Tiene una bolsa?', 'Poşetiniz var mı?'],
+        ['¿Me da un recibo?', 'Fiş alabilir miyim?']
       ],
       A2: [
-        ['Is this on offer today?', 'Bu bugün indirimde mi?'],
-        ['Where can I find the frozen food?', 'Dondurulmuş gıdaları nerede bulabilirim?'],
-        ['Do you have a loyalty card?', 'Sadakat kartınız var mı?']
+        ['¿Esto está de oferta hoy?', 'Bu bugün indirimde mi?'],
+        ['¿Dónde encuentro los congelados?', 'Dondurulmuş gıdaları nerede bulabilirim?'],
+        ['¿Tiene tarjeta de fidelidad?', 'Sadakat kartınız var mı?']
       ]
     }
   },
   clothing: {
-    'More shopping': {
+    'Daha fazla alışveriş': {
       A2: [
-        ['Do you have these shoes in size 42?', 'Bu ayakkabıların 42 numarası var mı?'],
-        ['Is this on sale?', 'Bu indirimde mi?'],
-        ['Can I pay in cash?', 'Nakit ödeyebilir miyim?']
+        ['¿Tienen estos zapatos en el 42?', 'Bu ayakkabıların 42 numarası var mı?'],
+        ['¿Está rebajado?', 'Bu indirimde mi?'],
+        ['¿Puedo pagar en efectivo?', 'Nakit ödeyebilir miyim?']
       ],
       B1: [
-        ['Do you offer refunds without a receipt?', 'Fişsiz para iadesi yapıyor musunuz?']
+        ['¿Hacen devoluciones sin ticket?', 'Fişsiz para iadesi yapıyor musunuz?']
       ]
     }
   },
   train: {
-    'On the platform': {
+    'Peronda': {
       A1: [
-        ['Is this the train to London?', 'Bu Londra treni mi?'],
-        ['Excuse me, is this seat free?', 'Pardon, bu koltuk boş mu?']
+        ['¿Este es el tren a Londres?', 'Bu Londra treni mi?'],
+        ['Perdone, ¿está libre este asiento?', 'Pardon, bu koltuk boş mu?']
       ],
       A2: [
-        ['Do I need to change trains?', 'Aktarma yapmam gerekiyor mu?'],
-        ['How long is the journey?', 'Yolculuk ne kadar sürüyor?']
+        ['¿Tengo que hacer transbordo?', 'Aktarma yapmam gerekiyor mu?'],
+        ['¿Cuánto dura el viaje?', 'Yolculuk ne kadar sürüyor?']
       ]
     }
   },
   taxi: {
-    'On the way': {
+    'Yolda': {
       A2: [
-        ['Could you slow down a little, please?', 'Biraz yavaşlar mısınız, lütfen?'],
-        ['Is it far from here?', 'Buraya uzak mı?'],
-        ['Could you wait for a few minutes?', 'Birkaç dakika bekler misiniz?']
+        ['¿Podría ir un poco más despacio, por favor?', 'Biraz yavaşlar mısınız, lütfen?'],
+        ['¿Está lejos de aquí?', 'Buraya uzak mı?'],
+        ['¿Podría esperar unos minutos?', 'Birkaç dakika bekler misiniz?']
       ]
     }
   },
   bank: {
-    'More at the bank': {
+    'Bankada dahası': {
       A2: [
-        ['I’d like to withdraw some money.', 'Biraz para çekmek istiyorum.'],
-        ['Where is the nearest cash machine?', 'En yakın bankamatik nerede?']
+        ['Quisiera sacar dinero.', 'Biraz para çekmek istiyorum.'],
+        ['¿Dónde está el cajero más cercano?', 'En yakın bankamatik nerede?']
       ],
       B1: [
-        ['How long will the new card take to arrive?', 'Yeni kart ne zaman gelir?'],
-        ['Could you send it to my address?', 'Adresime gönderebilir misiniz?']
+        ['¿Cuánto tardará en llegar la tarjeta nueva?', 'Yeni kart ne zaman gelir?'],
+        ['¿Podría enviarla a mi dirección?', 'Adresime gönderebilir misiniz?']
       ]
     }
   },
   police: {
-    'More details': {
+    'Daha fazla ayrıntı': {
       B1: [
-        ['Can I contact you by email?', 'Sizinle e-posta ile iletişim kurabilir miyim?'],
-        ['It’s a black phone in a blue case.', 'Mavi kılıfta siyah bir telefon.'],
-        ['I last had it on the number 12 bus.', 'En son 12 numaralı otobüste elimdeydi.']
+        ['¿Puedo contactarlos por correo electrónico?', 'Sizinle e-posta ile iletişim kurabilir miyim?'],
+        ['Es un teléfono negro con funda azul.', 'Mavi kılıfta siyah bir telefon.'],
+        ['Lo tuve por última vez en el autobús número 12.', 'En son 12 numaralı otobüste elimdeydi.']
       ]
     }
   },
   street: {
-    'More directions': {
+    'Daha fazla yol tarifi': {
       A2: [
-        ['Turn left at the traffic lights.', 'Trafik ışıklarında sola dön.'],
-        ['Go straight on for about five minutes.', 'Yaklaşık beş dakika düz git.'],
-        ['It’s next to the pharmacy.', 'Eczanenin yanında.'],
-        ['Am I going the right way?', 'Doğru yolda mıyım?']
+        ['Gire a la izquierda en el semáforo.', 'Trafik ışıklarında sola dön.'],
+        ['Siga recto unos cinco minutos.', 'Yaklaşık beş dakika düz git.'],
+        ['Está al lado de la farmacia.', 'Eczanenin yanında.'],
+        ['¿Voy por el buen camino?', 'Doğru yolda mıyım?']
       ]
     },
-    'Everyday essentials': {
+    'Günlük temel cümleler': {
       A1: [
-        ['Excuse me, can you help me?', 'Pardon, yardım edebilir misiniz?'],
-        ['I’m sorry, I don’t understand.', 'Üzgünüm, anlamıyorum.'],
-        ['Could you say that again, please?', 'Bunu tekrar söyler misiniz, lütfen?'],
-        ['Could you speak more slowly, please?', 'Biraz daha yavaş konuşur musunuz, lütfen?'],
-        ['How do you say this in English?', 'Bu İngilizce nasıl söylenir?'],
-        ['Thank you very much for your help.', 'Yardımınız için çok teşekkürler.']
+        ['Perdone, ¿me puede ayudar?', 'Pardon, yardım edebilir misiniz?'],
+        ['Lo siento, no entiendo.', 'Üzgünüm, anlamıyorum.'],
+        ['¿Puede repetirlo, por favor?', 'Bunu tekrar söyler misiniz, lütfen?'],
+        ['¿Puede hablar más despacio, por favor?', 'Biraz daha yavaş konuşur musunuz, lütfen?'],
+        ['¿Cómo se dice esto en español?', 'Bu İspanyolca nasıl söylenir?'],
+        ['Muchas gracias por su ayuda.', 'Yardımınız için çok teşekkürler.']
       ]
     }
   },
   workplace: {
-    'Everyday office': {
+    'Günlük ofis': {
       A2: [
-        ['Could you help me with this task?', 'Bu işte bana yardım eder misin?'],
-        ['I’ll send you the report by email.', 'Raporu sana e-posta ile göndereceğim.'],
-        ['Can we schedule a meeting for tomorrow?', 'Yarın için bir toplantı ayarlayabilir miyiz?']
+        ['¿Me podrías ayudar con esta tarea?', 'Bu işte bana yardım eder misin?'],
+        ['Te enviaré el informe por correo.', 'Raporu sana e-posta ile göndereceğim.'],
+        ['¿Podemos agendar una reunión para mañana?', 'Yarın için bir toplantı ayarlayabilir miyiz?']
       ],
       B1: [
-        ['I’m sorry, I’ll send it right away.', 'Özür dilerim, hemen gönderiyorum.']
+        ['Lo siento, lo envío ahora mismo.', 'Özür dilerim, hemen gönderiyorum.']
       ]
     }
   },
   home: {
-    'Around the house': {
+    'Evin içinde': {
       A1: [
-        ['Can you pass the salt, please?', 'Tuzu uzatır mısın, lütfen?'],
-        ['I’m going to the shop. Do you need anything?', 'Markete gidiyorum. Bir şeye ihtiyacın var mı?'],
-        ['Dinner is ready!', 'Yemek hazır!']
+        ['¿Me pasas la sal, por favor?', 'Tuzu uzatır mısın, lütfen?'],
+        ['Voy a la tienda. ¿Necesitas algo?', 'Markete gidiyorum. Bir şeye ihtiyacın var mı?'],
+        ['¡La cena está lista!', 'Yemek hazır!']
       ],
       A2: [
-        ['Could you turn the music down a little?', 'Müziği biraz kısar mısın?'],
-        ['I’ll do the dishes tonight.', 'Bulaşıkları bu gece ben yıkarım.']
+        ['¿Puedes bajar un poco la música?', 'Müziği biraz kısar mısın?'],
+        ['Yo lavo los platos esta noche.', 'Bulaşıkları bu gece ben yıkarım.']
       ]
     }
   }
@@ -552,21 +552,21 @@ export const PHRASEBOOK = build(mergeRaw(RAW, RAW_EXTRA));
 // Group metadata for the Quick Practice screen (icon/label per place), reusing
 // the Story environments where possible.
 export const PHRASE_PLACES = {
-  hotel:       { icon: '🏨', label: 'Hotel',        labelTr: 'Otel' },
-  airport:     { icon: '✈️', label: 'Airport',      labelTr: 'Havalimanı' },
-  restaurant:  { icon: '🍽️', label: 'Restaurant',   labelTr: 'Restoran' },
-  cafe:        { icon: '☕', label: 'Café',          labelTr: 'Kafe' },
-  hospital:    { icon: '🏥', label: 'Hospital',      labelTr: 'Hastane' },
-  pharmacy:    { icon: '💊', label: 'Pharmacy',      labelTr: 'Eczane' },
-  supermarket: { icon: '🛒', label: 'Supermarket',   labelTr: 'Market' },
-  clothing:    { icon: '👕', label: 'Clothing Store', labelTr: 'Giyim' },
-  train:       { icon: '🚆', label: 'Train Station', labelTr: 'Tren Garı' },
-  taxi:        { icon: '🚕', label: 'Taxi',          labelTr: 'Taksi' },
-  bank:        { icon: '🏦', label: 'Bank',          labelTr: 'Banka' },
-  police:      { icon: '🚓', label: 'Police',        labelTr: 'Karakol' },
-  street:      { icon: '🚶', label: 'Out & About',   labelTr: 'Dışarıda' },
-  workplace:   { icon: '💼', label: 'Workplace',     labelTr: 'İş Yeri' },
-  home:        { icon: '🏠', label: 'Home',          labelTr: 'Ev' }
+  hotel:       { icon: '🏨', label: 'Hotel',            labelTr: 'Otel' },
+  airport:     { icon: '✈️', label: 'Aeropuerto',       labelTr: 'Havalimanı' },
+  restaurant:  { icon: '🍽️', label: 'Restaurante',      labelTr: 'Restoran' },
+  cafe:        { icon: '☕', label: 'Cafetería',         labelTr: 'Kafe' },
+  hospital:    { icon: '🏥', label: 'Hospital',         labelTr: 'Hastane' },
+  pharmacy:    { icon: '💊', label: 'Farmacia',         labelTr: 'Eczane' },
+  supermarket: { icon: '🛒', label: 'Supermercado',     labelTr: 'Market' },
+  clothing:    { icon: '👕', label: 'Tienda de ropa',   labelTr: 'Giyim' },
+  train:       { icon: '🚆', label: 'Estación de tren', labelTr: 'Tren Garı' },
+  taxi:        { icon: '🚕', label: 'Taxi',             labelTr: 'Taksi' },
+  bank:        { icon: '🏦', label: 'Banco',            labelTr: 'Banka' },
+  police:      { icon: '🚓', label: 'Policía',          labelTr: 'Karakol' },
+  street:      { icon: '🚶', label: 'Por la calle',     labelTr: 'Dışarıda' },
+  workplace:   { icon: '💼', label: 'Trabajo',          labelTr: 'İş Yeri' },
+  home:        { icon: '🏠', label: 'Casa',             labelTr: 'Ev' }
 };
 
 export function phrasesForPlace(locationId) {

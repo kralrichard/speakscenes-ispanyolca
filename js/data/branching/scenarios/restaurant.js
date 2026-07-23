@@ -1,104 +1,104 @@
-import { createScenario } from '../scenarioSchema.js?v=5';
+import { createScenario } from '../scenarioSchema.js?v=6';
 
 // ── Restaurant order (A2) ───────────────────────────────────────────────────
 export const restaurantOrder = createScenario({
   id: 'restaurant-order',
-  title: 'Ordering dinner',
+  title: 'Pedir la cena',
   titleTr: 'Akşam yemeği sipariş etmek',
   environmentId: 'restaurant', sceneType: 'restaurant', level: 'A2',
-  goal: 'Order a meal and drink the way you want them.',
+  goal: 'Pide una comida y una bebida como tú las quieres.',
   goalTr: 'İstediğin şekilde bir yemek ve içecek sipariş et.',
   npcIds: ['elena'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'elena', emotion: 'friendly',
-      text: 'Good evening! Here are your menus. Are you ready to order, or would you like a few minutes?',
+      text: '¡Buenas noches! Aquí tienen las cartas. ¿Están listos para pedir o quieren unos minutos?',
       translation: 'İyi akşamlar! Menüleriniz burada. Sipariş vermeye hazır mısınız, yoksa birkaç dakika ister misiniz?',
       choices: [
         { id: 'order_now', intentionTr: 'Hemen sipariş ver', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'I’m ready. I’ll have the grilled chicken, please.',
+          sentence: 'Estoy listo. Voy a tomar el pollo a la parrilla, por favor.',
           translation: 'Hazırım. Izgara tavuk alacağım, lütfen.',
-          altAccepted: ['I’ll have the grilled chicken please', 'The grilled chicken, please'],
+          altAccepted: ['El pollo a la parrilla por favor', 'Voy a pedir el pollo a la parrilla'],
           next: 'sides' },
         { id: 'need_time', intentionTr: 'Biraz zaman iste', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Could we have a few more minutes, please?',
+          sentence: '¿Nos das unos minutos más, por favor?',
           translation: 'Birkaç dakika daha alabilir miyiz, lütfen?',
-          altAccepted: ['A few more minutes please', 'Can we have a bit more time'],
+          altAccepted: ['Unos minutos más por favor', 'Podemos tener un poco más de tiempo'],
           next: 'back_later' },
         { id: 'recommend', intentionTr: 'Bir öneri iste', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'What would you recommend tonight?',
+          sentence: '¿Qué recomiendas esta noche?',
           translation: 'Bu akşam ne önerirsiniz?',
-          altAccepted: ['What do you recommend', 'Do you have a recommendation'],
+          altAccepted: ['Qué me recomiendas', 'Tienes alguna recomendación'],
           next: 'recommendation' },
         { id: 'allergy', intentionTr: 'Bir yemekte fıstık olup olmadığını sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'Does the pasta contain any nuts? I’m allergic.',
+          sentence: '¿La pasta lleva frutos secos? Soy alérgico.',
           translation: 'Makarnada fındık/fıstık var mı? Alerjim var.',
-          altAccepted: ['Is there any nuts in the pasta', 'Does the pasta have nuts, I’m allergic'],
+          altAccepted: ['Hay frutos secos en la pasta', 'La pasta tiene frutos secos soy alérgico'],
           next: 'allergy_answer' }
       ]
     },
     recommendation: {
       id: 'recommendation', speakerId: 'elena', emotion: 'happy',
-      text: 'Our seafood pasta is the favorite tonight, and the lamb is excellent too. Shall I bring one of those?',
+      text: 'Nuestra pasta con mariscos es la favorita esta noche, y el cordero también está excelente. ¿Te traigo uno de los dos?',
       translation: 'Bu akşam deniz mahsullü makarnamız favori, kuzu da mükemmel. Bunlardan birini getireyim mi?',
       choices: [
         { id: 'take_pasta', intentionTr: 'Makarnayı seç', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'The seafood pasta sounds great. I’ll have that.',
+          sentence: 'La pasta con mariscos suena genial. Voy a tomar esa.',
           translation: 'Deniz mahsullü makarna kulağa harika geliyor. Onu alacağım.',
-          altAccepted: ['I’ll have the seafood pasta', 'The pasta sounds great, I’ll take it'],
+          altAccepted: ['Me tomo la pasta con mariscos', 'La pasta suena bien me la quedo'],
           next: 'sides', relationshipEffect: 1 },
         { id: 'take_lamb', intentionTr: 'Kuzuyu seç', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'I’ll try the lamb, please.',
+          sentence: 'Voy a probar el cordero, por favor.',
           translation: 'Kuzuyu deneyeceğim, lütfen.',
-          altAccepted: ['I’ll have the lamb', 'The lamb, please'],
+          altAccepted: ['Me tomo el cordero', 'El cordero por favor'],
           next: 'sides' }
       ]
     },
     allergy_answer: {
       id: 'allergy_answer', speakerId: 'elena', emotion: 'concerned',
-      text: 'Thank you for telling me. The pasta is nut-free, but I’ll double-check with the kitchen to be safe. Would you like it?',
+      text: 'Gracias por decírmelo. La pasta no lleva frutos secos, pero lo confirmo con la cocina para estar seguros. ¿La quieres?',
       translation: 'Söylediğiniz için teşekkürler. Makarnada fındık/fıstık yok ama emin olmak için mutfağa tekrar sorayım. İster misiniz?',
       choices: [
         { id: 'yes_pasta', intentionTr: 'Evet, makarnayı iste', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Yes, please, if the kitchen confirms it’s safe.',
+          sentence: 'Sí, por favor, si la cocina confirma que es seguro.',
           translation: 'Evet, lütfen, mutfak güvenli olduğunu onaylarsa.',
-          altAccepted: ['Yes if it’s safe', 'Please, if the kitchen says it’s okay'],
+          altAccepted: ['Sí si es seguro', 'Por favor si la cocina lo confirma'],
           next: 'sides', relationshipEffect: 1 },
         { id: 'something_else', intentionTr: 'Güvenli başka bir şey iste', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'To be safe, could I have the grilled chicken instead?',
+          sentence: 'Para estar seguro, ¿me pones el pollo a la parrilla mejor?',
           translation: 'Güvenli olmak için, onun yerine ızgara tavuk alabilir miyim?',
-          altAccepted: ['I’ll have the grilled chicken to be safe', 'Can I get the chicken instead'],
+          altAccepted: ['Mejor el pollo a la parrilla para estar seguro', 'Me pones el pollo mejor'],
           next: 'sides' }
       ]
     },
     sides: {
       id: 'sides', speakerId: 'elena', emotion: 'friendly',
-      text: 'Great choice. Would you like anything to drink with that?',
+      text: 'Buena elección. ¿Quieres algo de beber con eso?',
       translation: 'Harika seçim. Yanında içecek bir şey ister misiniz?',
       choices: [
         { id: 'water', intentionTr: 'Su iste', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'Just a bottle of still water, thanks.',
+          sentence: 'Solo una botella de agua sin gas, gracias.',
           translation: 'Sadece bir şişe sade su, teşekkürler.',
-          altAccepted: ['A bottle of water please', 'Just still water, thanks'],
+          altAccepted: ['Una botella de agua por favor', 'Solo agua sin gas gracias'],
           next: 'end_ordered' },
         { id: 'wine', intentionTr: 'Şarap önerisi iste', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Could you suggest a glass of wine to go with it?',
+          sentence: '¿Me sugieres una copa de vino que vaya bien con esto?',
           translation: 'Yanına uygun bir kadeh şarap önerebilir misiniz?',
-          altAccepted: ['Which wine goes well with it', 'Can you suggest a wine'],
+          altAccepted: ['Qué vino va bien con esto', 'Me recomiendas un vino'],
           next: 'end_ordered', relationshipEffect: 1 }
       ]
     },
     back_later: {
       id: 'back_later', speakerId: 'elena', emotion: 'friendly',
-      text: 'Of course, take your time. I’ll be right back. (A minute later) Ready now?',
+      text: 'Claro, con calma. Ahora vuelvo. (Un minuto después) ¿Listos ya?',
       translation: 'Tabii, acele etmeyin. Hemen dönerim. (Bir dakika sonra) Şimdi hazır mısınız?',
       next: 'recommendation'
     }
   },
   endings: {
-    end_ordered: { id: 'end_ordered', kind: 'success', title: 'Order placed', titleTr: 'Sipariş verildi',
-      text: 'You ordered your meal and drink clearly and politely. Enjoy your dinner!',
+    end_ordered: { id: 'end_ordered', kind: 'success', title: 'Pedido hecho', titleTr: 'Sipariş verildi',
+      text: 'Pediste tu comida y tu bebida con claridad y cortesía. ¡Que disfrutes la cena!',
       translation: 'Yemeğini ve içeceğini net ve kibar biçimde sipariş ettin. Afiyet olsun!',
       relationshipEffect: 1, coins: 10 }
   }
@@ -107,77 +107,77 @@ export const restaurantOrder = createScenario({
 // ── Wrong order / complaint (B1) ────────────────────────────────────────────
 export const wrongOrder = createScenario({
   id: 'wrong-order',
-  title: 'This isn’t what I ordered',
+  title: 'Esto no es lo que pedí',
   titleTr: 'Bu sipariş ettiğim şey değil',
   environmentId: 'restaurant', sceneType: 'restaurant', level: 'B1',
-  goal: 'Politely fix a wrong order without a fuss.',
+  goal: 'Corrige un pedido equivocado con cortesía y sin dramas.',
   goalTr: 'Yanlış siparişi kibarca, sorun çıkarmadan düzelt.',
   npcIds: ['elena', 'marco'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'elena', emotion: 'happy',
-      text: 'Here you are — one beef burger. Enjoy!',
+      text: 'Aquí tienes — una hamburguesa de ternera. ¡Que aproveche!',
       translation: 'Buyurun — bir dana burger. Afiyet olsun!',
       choices: [
         { id: 'polite_correct', intentionTr: 'Kibarca yanlış olduğunu söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Sorry, but I think there’s a mistake — I ordered the veggie burger.',
+          sentence: 'Perdona, pero creo que hay un error — yo pedí la hamburguesa vegetariana.',
           translation: 'Pardon ama sanırım bir hata var — sebzeli burger sipariş etmiştim.',
-          altAccepted: ['I ordered the veggie burger, not this', 'I think this is wrong, I asked for the veggie burger'],
+          altAccepted: ['Yo pedí la hamburguesa vegetariana no esta', 'Creo que esto está mal pedí la vegetariana'],
           next: 'apology' },
         { id: 'direct_correct', intentionTr: 'Doğrudan yanlış olduğunu söyle', tone: 'direct', difficulty: 'medium', xp: 14,
-          sentence: 'This isn’t what I ordered. I asked for the veggie burger.',
+          sentence: 'Esto no es lo que pedí. Yo pedí la hamburguesa vegetariana.',
           translation: 'Bu sipariş ettiğim şey değil. Sebzeli burger istemiştim.',
-          altAccepted: ['This is the wrong order, I wanted the veggie burger', 'I didn’t order this, I ordered the veggie burger'],
+          altAccepted: ['Este pedido está mal yo quería la vegetariana', 'Yo no pedí esto pedí la vegetariana'],
           next: 'apology' }
       ]
     },
     apology: {
       id: 'apology', speakerId: 'elena', emotion: 'apologetic',
-      text: 'Oh no, I’m so sorry! That’s my mistake. I’ll bring the veggie burger right away. Can I get you anything while you wait?',
+      text: '¡Ay no, lo siento muchísimo! Es culpa mía. Te traigo la vegetariana ahora mismo. ¿Te traigo algo mientras esperas?',
       translation: 'Ah hayır, çok özür dilerim! Benim hatam. Sebzeli burgeri hemen getireceğim. Beklerken size bir şey getirebilir miyim?',
       choices: [
         { id: 'no_worries', intentionTr: 'Sorun olmadığını söyle', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'No worries, these things happen. Just some water, thanks.',
+          sentence: 'No pasa nada, son cosas que ocurren. Solo un poco de agua, gracias.',
           translation: 'Sorun değil, olur böyle şeyler. Sadece biraz su, teşekkürler.',
-          altAccepted: ['It’s okay, just some water thanks', 'No problem, water would be nice'],
+          altAccepted: ['Está bien solo agua gracias', 'No hay problema un agua estaría bien'],
           next: 'end_gracious', relationshipEffect: 2 },
         { id: 'ask_speed', intentionTr: 'Acele olduğunu söyle', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'It’s fine, but could you make it quick? I’m in a bit of a hurry.',
+          sentence: 'No pasa nada, pero ¿podría ser rápido? Tengo un poco de prisa.',
           translation: 'Sorun değil ama çabuk olabilir mi? Biraz acelem var.',
-          altAccepted: ['Could you hurry it a little, I’m in a rush', 'Can you be quick, I’m in a hurry'],
+          altAccepted: ['Podrías darte prisa tengo prisa', 'Puede ser rápido tengo prisa'],
           next: 'manager' }
       ]
     },
     manager: {
       id: 'manager', speakerId: 'marco', emotion: 'apologetic',
-      text: 'I’m the manager — I heard there was a mix-up. Your correct order is being rushed, and it’s on the house. Again, my apologies.',
+      text: 'Soy el gerente — me contaron de la confusión. Tu pedido correcto viene con prioridad y va por cuenta de la casa. De nuevo, mis disculpas.',
       translation: 'Ben müdürüm — bir karışıklık olduğunu duydum. Doğru siparişiniz hızlandırılıyor ve ikramımız. Tekrar özür dilerim.',
       choices: [
         { id: 'thank_manager', intentionTr: 'Teşekkür et ve nazik ol', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'That’s very kind of you. Thank you for sorting it out so quickly.',
+          sentence: 'Es muy amable de tu parte. Gracias por resolverlo tan rápido.',
           translation: 'Çok naziksiniz. Bu kadar hızlı çözdüğünüz için teşekkürler.',
-          altAccepted: ['Thank you for sorting it out quickly', 'That’s kind, thanks for fixing it fast'],
+          altAccepted: ['Gracias por resolverlo tan rápido', 'Muy amable gracias por arreglarlo rápido'],
           next: 'end_comped', relationshipEffect: 2 },
         { id: 'decline_free', intentionTr: 'Ücretsiz olmasına gerek yok de', tone: 'friendly', difficulty: 'hard', xp: 18,
-          sentence: 'Thank you, but you really don’t have to do that. I’m happy to pay.',
+          sentence: 'Gracias, pero de verdad no hace falta. Pago encantado.',
           translation: 'Teşekkürler ama gerçekten gerek yok. Ödemekten memnuniyet duyarım.',
-          altAccepted: ['You don’t have to, I’m happy to pay', 'That’s not necessary, I’ll pay for it'],
+          altAccepted: ['No hace falta pago encantado', 'No es necesario yo lo pago'],
           next: 'end_generous', relationshipEffect: 2 }
       ]
     }
   },
   endings: {
-    end_gracious: { id: 'end_gracious', kind: 'relationship', title: 'Handled with grace', titleTr: 'Nazikçe halledildi',
-      text: 'You corrected the order kindly and put Elena at ease. A small moment, handled like a native speaker.',
+    end_gracious: { id: 'end_gracious', kind: 'relationship', title: 'Resuelto con elegancia', titleTr: 'Nazikçe halledildi',
+      text: 'Corregiste el pedido con amabilidad y tranquilizaste a Elena. Un momento pequeño, manejado como un nativo.',
       translation: 'Siparişi nazikçe düzelttin ve Elena’yı rahatlattın. Küçük bir an, ana dili gibi halledildi.',
       relationshipEffect: 1, coins: 12 },
-    end_comped: { id: 'end_comped', kind: 'problem-solved', title: 'Free meal, no drama', titleTr: 'Ücretsiz yemek, sorunsuz',
-      text: 'You were clear about being in a hurry, stayed polite, and the manager comped your meal. Well negotiated.',
+    end_comped: { id: 'end_comped', kind: 'problem-solved', title: 'Comida gratis, sin drama', titleTr: 'Ücretsiz yemek, sorunsuz',
+      text: 'Dijiste con claridad que tenías prisa, te mantuviste cortés y el gerente invitó la comida. Bien negociado.',
       translation: 'Acelen olduğunu net söyledin, kibar kaldın ve müdür yemeğini ikram etti. İyi bir pazarlık.',
       relationshipEffect: 1, coins: 16 },
-    end_generous: { id: 'end_generous', kind: 'relationship', title: 'A generous guest', titleTr: 'Cömert bir misafir',
-      text: 'You turned down the free meal graciously. The manager insisted anyway — and you’ve made a friend of the whole restaurant.',
+    end_generous: { id: 'end_generous', kind: 'relationship', title: 'Un cliente generoso', titleTr: 'Cömert bir misafir',
+      text: 'Rechazaste la comida gratis con elegancia. El gerente insistió igualmente — y ahora todo el restaurante te adora.',
       translation: 'Ücretsiz yemeği nezaketle geri çevirdin. Müdür yine de ısrar etti — ve tüm restoranı kendine dost ettin.',
       relationshipEffect: 2, coins: 14 }
   }

@@ -1,76 +1,76 @@
-import { createScenario } from '../scenarioSchema.js?v=5';
+import { createScenario } from '../scenarioSchema.js?v=6';
 
 // ── Café order (A1) ─────────────────────────────────────────────────────────
 export const cafeOrder = createScenario({
   id: 'cafe-order',
-  title: 'Ordering at the café',
+  title: 'Pedir en la cafetería',
   titleTr: 'Kafede sipariş vermek',
   environmentId: 'cafe', sceneType: 'cafe', level: 'A1',
-  goal: 'Order a drink the way you like it.',
+  goal: 'Pide una bebida como a ti te gusta.',
   goalTr: 'İçeceğini istediğin gibi sipariş et.',
   npcIds: ['mia'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'mia', emotion: 'happy',
-      text: 'Hi there! What can I get you?',
+      text: '¡Hola! ¿Qué te pongo?',
       translation: 'Merhaba! Ne alırsınız?',
       choices: [
         { id: 'coffee', intentionTr: 'Bir kahve iste', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'Hi! Can I have a coffee, please?',
+          sentence: '¡Hola! ¿Me pones un café, por favor?',
           translation: 'Merhaba! Bir kahve alabilir miyim, lütfen?',
-          altAccepted: ['Can I get a coffee please', 'A coffee, please'],
+          altAccepted: ['Un café por favor', 'Quería un café'],
           next: 'size' },
         { id: 'tea', intentionTr: 'Bir çay iste', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'Could I get a cup of tea, please?',
+          sentence: '¿Me das una taza de té, por favor?',
           translation: 'Bir fincan çay alabilir miyim, lütfen?',
-          altAccepted: ['Can I have a tea please', 'A tea, please'],
+          altAccepted: ['Un té por favor', 'Quería un té'],
           next: 'size' },
         { id: 'recommend', intentionTr: 'Ne önerdiğini sor', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'What’s good here? What do you recommend?',
+          sentence: '¿Qué está bueno aquí? ¿Qué me recomiendas?',
           translation: 'Burada ne güzel? Ne önerirsin?',
-          altAccepted: ['What do you recommend', 'What’s popular here'],
+          altAccepted: ['Qué me recomiendas', 'Qué es lo más popular aquí'],
           next: 'suggest' }
       ]
     },
     suggest: {
       id: 'suggest', speakerId: 'mia', emotion: 'friendly',
-      text: 'Our caramel latte is a favorite, and the iced tea is great on a hot day. Which sounds good?',
+      text: 'Nuestro latte de caramelo es el favorito, y el té helado va genial en un día de calor. ¿Cuál te apetece?',
       translation: 'Karamelli latte favorimiz, sıcak günlerde de buzlu çay harika. Hangisi hoşuna gitti?',
       choices: [
         { id: 'latte', intentionTr: 'Latte’yi seç', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'The caramel latte sounds perfect. I’ll have that.',
+          sentence: 'El latte de caramelo suena perfecto. Voy a tomar ese.',
           translation: 'Karamelli latte harika. Onu alayım.',
-          altAccepted: ['I’ll have the caramel latte', 'The caramel latte please'],
+          altAccepted: ['Me tomo el latte de caramelo', 'El latte de caramelo por favor'],
           next: 'size', relationshipEffect: 1 },
         { id: 'icedtea', intentionTr: 'Buzlu çayı seç', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'I’ll try the iced tea, thanks.',
+          sentence: 'Voy a probar el té helado, gracias.',
           translation: 'Buzlu çayı deneyeyim, teşekkürler.',
-          altAccepted: ['The iced tea please', 'I’ll have the iced tea'],
+          altAccepted: ['El té helado por favor', 'Me tomo el té helado'],
           next: 'size' }
       ]
     },
     size: {
       id: 'size', speakerId: 'mia', emotion: 'neutral',
-      text: 'Sure! What size would you like — small, medium, or large?',
+      text: '¡Claro! ¿Qué tamaño quieres — pequeño, mediano o grande?',
       translation: 'Tabii! Hangi boy istersiniz — küçük, orta, yoksa büyük?',
       choices: [
         { id: 'medium', intentionTr: 'Orta boy iste', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'A medium, please. To take away.',
+          sentence: 'Mediano, por favor. Para llevar.',
           translation: 'Orta boy, lütfen. Dışarı alacağım.',
-          altAccepted: ['Medium please, to go', 'A medium to take away'],
+          altAccepted: ['Mediano para llevar por favor', 'Uno mediano para llevar'],
           next: 'end_ordered' },
         { id: 'large_stay', intentionTr: 'Büyük iste ve içeride kal', tone: 'casual', difficulty: 'medium', xp: 14,
-          sentence: 'A large one, and I’ll drink it here.',
+          sentence: 'Uno grande, y me lo tomo aquí.',
           translation: 'Büyük boy ve burada içeceğim.',
-          altAccepted: ['Large, and I’ll have it here', 'A large to drink in'],
+          altAccepted: ['Grande y me lo tomo aquí', 'Uno grande para tomar aquí'],
           next: 'end_ordered', relationshipEffect: 1 }
       ]
     }
   },
   endings: {
-    end_ordered: { id: 'end_ordered', kind: 'success', title: 'Order ready', titleTr: 'Sipariş hazır',
-      text: 'You ordered your drink clearly, size and all. Enjoy!',
+    end_ordered: { id: 'end_ordered', kind: 'success', title: 'Pedido listo', titleTr: 'Sipariş hazır',
+      text: 'Pediste tu bebida con claridad, con tamaño y todo. ¡Que aproveche!',
       translation: 'İçeceğini boyuyla birlikte net biçimde sipariş ettin. Afiyet olsun!',
       relationshipEffect: 1, coins: 10 }
   }
@@ -79,73 +79,73 @@ export const cafeOrder = createScenario({
 // ── Café catch-up with a friend (B1) ────────────────────────────────────────
 export const cafeMeetup = createScenario({
   id: 'cafe-meetup',
-  title: 'Catching up with an old friend',
+  title: 'Reencuentro con una vieja amiga',
   titleTr: 'Eski bir arkadaşla hasret gidermek',
   environmentId: 'cafe', sceneType: 'cafe', level: 'B1',
-  goal: 'Reconnect with a friend you haven’t seen in years.',
+  goal: 'Vuelve a conectar con una amiga a la que no ves desde hace años.',
   goalTr: 'Yıllardır görmediğin bir arkadaşınla yeniden bağ kur.',
   npcIds: ['hannah'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'hannah', emotion: 'surprised',
-      text: 'Oh my goodness — is that really you? It’s been what, five years?',
+      text: 'Dios mío, ¿de verdad eres tú? ¿Cuánto ha pasado, cinco años?',
       translation: 'Aman tanrım — bu gerçekten sen misin? Ne kadar oldu, beş yıl mı?',
       choices: [
         { id: 'warm', intentionTr: 'Sıcak bir şekilde karşılık ver', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'Hannah! I can’t believe it — you look exactly the same!',
+          sentence: '¡Hannah! No me lo puedo creer — ¡estás exactamente igual!',
           translation: 'Hannah! İnanamıyorum — tıpatıp aynısın!',
-          altAccepted: ['I can’t believe it, you look the same', 'Hannah, it’s so good to see you'],
+          altAccepted: ['No me lo puedo creer estás igual', 'Hannah qué alegría verte'],
           next: 'whats_new', relationshipEffect: 2 },
         { id: 'surprised', intentionTr: 'Şaşkınlığını dile getir', tone: 'casual', difficulty: 'medium', xp: 14,
-          sentence: 'Wow, what a coincidence! What are you doing here?',
+          sentence: '¡Vaya, qué casualidad! ¿Qué haces aquí?',
           translation: 'Vay, ne tesadüf! Burada ne yapıyorsun?',
-          altAccepted: ['What a coincidence, what brings you here', 'What are you doing here'],
+          altAccepted: ['Qué casualidad qué haces aquí', 'Qué haces por aquí'],
           next: 'whats_new' }
       ]
     },
     whats_new: {
       id: 'whats_new', speakerId: 'hannah', emotion: 'happy',
-      text: 'I moved back last month! I’m working at the hospital now. So tell me — what have you been up to?',
+      text: '¡Volví el mes pasado! Ahora trabajo en el hospital. Cuéntame — ¿qué has estado haciendo?',
       translation: 'Geçen ay geri taşındım! Şimdi hastanede çalışıyorum. Anlat bakalım — sen neler yapıyordun?',
       choices: [
         { id: 'job', intentionTr: 'İşinden bahset', tone: 'friendly', difficulty: 'hard', xp: 18,
-          sentence: 'A lot has changed! I started my own business two years ago.',
+          sentence: '¡Han cambiado muchas cosas! Monté mi propio negocio hace dos años.',
           translation: 'Çok şey değişti! İki yıl önce kendi işimi kurdum.',
-          altAccepted: ['I started my own business two years ago', 'I’ve been running my own business'],
+          altAccepted: ['Monté mi propio negocio hace dos años', 'Llevo mi propio negocio ahora'],
           next: 'plans', relationshipEffect: 1 },
         { id: 'travel', intentionTr: 'Seyahatlerinden bahset', tone: 'friendly', difficulty: 'hard', xp: 18,
-          sentence: 'Honestly, I’ve been traveling a lot — I just got back from Japan.',
+          sentence: 'La verdad, he viajado mucho — acabo de volver de Japón.',
           translation: 'Açıkçası çok seyahat ediyordum — daha yeni Japonya’dan döndüm.',
-          altAccepted: ['I’ve been traveling a lot, just back from Japan', 'I just came back from Japan'],
+          altAccepted: ['He viajado mucho acabo de volver de Japón', 'Acabo de volver de Japón'],
           next: 'plans' }
       ]
     },
     plans: {
       id: 'plans', speakerId: 'hannah', emotion: 'friendly',
-      text: 'That’s amazing! We have so much to catch up on. Do you have time for a proper coffee, or are you rushing off?',
+      text: '¡Qué maravilla! Tenemos mucho que contarnos. ¿Tienes tiempo para un café tranquilo o llevas prisa?',
       translation: 'Bu harika! Konuşacak çok şeyimiz var. Doğru dürüst bir kahveye vaktin var mı, yoksa acele mi ediyorsun?',
       choices: [
         { id: 'stay', intentionTr: 'Kal ve sohbet et', tone: 'friendly', difficulty: 'medium', xp: 16,
-          sentence: 'I’ve got all afternoon. Let’s grab a table and catch up properly.',
+          sentence: 'Tengo toda la tarde libre. Busquemos una mesa y pongámonos al día con calma.',
           translation: 'Bütün öğleden sonram boş. Bir masa tutup güzelce sohbet edelim.',
-          altAccepted: ['I have time, let’s sit and catch up', 'Let’s get a table and talk'],
+          altAccepted: ['Tengo tiempo sentémonos a hablar', 'Busquemos una mesa y hablemos'],
           next: 'end_reunion', relationshipEffect: 2 },
         { id: 'reschedule', intentionTr: 'Şimdi olmaz ama buluşma ayarla', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'I have to run now, but let’s swap numbers and meet properly this week.',
+          sentence: 'Me tengo que ir, pero intercambiemos números y quedemos esta semana.',
           translation: 'Şimdi gitmem lazım ama numaralarımızı alalım ve bu hafta doğru dürüst buluşalım.',
-          altAccepted: ['Let’s exchange numbers and meet this week', 'I have to go, but let’s meet this week'],
+          altAccepted: ['Intercambiemos números y quedemos esta semana', 'Me tengo que ir pero quedamos esta semana'],
           next: 'end_plan', relationshipEffect: 1 }
       ]
     }
   },
   endings: {
-    end_reunion: { id: 'end_reunion', kind: 'relationship', title: 'A real reunion', titleTr: 'Gerçek bir buluşma',
-      text: 'You sat down and talked for hours. Some friendships pick up right where they left off.',
+    end_reunion: { id: 'end_reunion', kind: 'relationship', title: 'Un reencuentro de verdad', titleTr: 'Gerçek bir buluşma',
+      text: 'Os sentasteis y hablasteis durante horas. Algunas amistades siguen justo donde se quedaron.',
       translation: 'Oturup saatlerce konuştunuz. Bazı dostluklar kaldığı yerden devam eder.',
       relationshipEffect: 2, coins: 16 },
-    end_plan: { id: 'end_plan', kind: 'success', title: 'A plan to meet', titleTr: 'Buluşma planı',
-      text: 'You couldn’t stay, but you made a firm plan to meet again. Handled warmly and politely.',
+    end_plan: { id: 'end_plan', kind: 'success', title: 'Un plan para verse', titleTr: 'Buluşma planı',
+      text: 'No podías quedarte, pero hicisteis un plan firme para veros otra vez. Resuelto con calidez y cortesía.',
       translation: 'Kalamadın ama tekrar buluşmak için sağlam bir plan yaptın. Sıcak ve kibarca halledildi.',
       coins: 10 }
   }
