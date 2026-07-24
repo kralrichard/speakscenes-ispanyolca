@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Meeting a new friend (A1) ───────────────────────────────────────────────
 export const meetingFriend = createScenario({
@@ -39,7 +39,7 @@ export const meetingFriend = createScenario({
           altAccepted: ['Soy de Turquía me mudé el mes pasado', 'De Turquía llegué el mes pasado'],
           next: 'hobbies' },
         { id: 'ask_back', intentionTr: 'Sen nerelisin diye sor', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'Soy de Turquía. ¿Y tú — eres de aquí?',
+          sentence: 'Soy de Turquía. ¿Y tú, eres de aquí?',
           translation: 'Türkiye’denim. Ya sen — buralı mısın?',
           altAccepted: ['Soy de Turquía y tú', 'De Turquía de dónde eres tú'],
           next: 'hobbies', relationshipEffect: 1 }

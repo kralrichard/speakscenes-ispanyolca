@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Restaurant order (A2) ───────────────────────────────────────────────────
 export const restaurantOrder = createScenario({
@@ -121,7 +121,7 @@ export const wrongOrder = createScenario({
       translation: 'Buyurun — bir dana burger. Afiyet olsun!',
       choices: [
         { id: 'polite_correct', intentionTr: 'Kibarca yanlış olduğunu söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Perdona, pero creo que hay un error — yo pedí la hamburguesa vegetariana.',
+          sentence: 'Perdona, pero creo que hay un error, yo pedí la hamburguesa vegetariana.',
           translation: 'Pardon ama sanırım bir hata var — sebzeli burger sipariş etmiştim.',
           altAccepted: ['Yo pedí la hamburguesa vegetariana no esta', 'Creo que esto está mal pedí la vegetariana'],
           next: 'apology' },

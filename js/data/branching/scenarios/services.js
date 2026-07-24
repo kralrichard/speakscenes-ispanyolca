@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Bank: reporting a lost card (B1) ────────────────────────────────────────
 export const bankLostCard = createScenario({
@@ -22,7 +22,7 @@ export const bankLostCard = createScenario({
           altAccepted: ['He perdido mi tarjeta del banco', 'Creo que perdí mi tarjeta'],
           next: 'when_lost' },
         { id: 'stolen', intentionTr: 'Kartının çalınmış olabileceğini söyle', tone: 'direct', difficulty: 'hard', xp: 18,
-          sentence: 'Necesito bloquear mi tarjeta — creo que me la pueden haber robado.',
+          sentence: 'Necesito bloquear mi tarjeta, creo que me la pueden haber robado.',
           translation: 'Kartımı bloke ettirmem gerekiyor — sanırım çalınmış olabilir.',
           altAccepted: ['Creo que me robaron la tarjeta bloquéela por favor', 'Puede que me hayan robado la tarjeta'],
           next: 'block_now' }
@@ -51,7 +51,7 @@ export const bankLostCard = createScenario({
       translation: 'Anlaşıldı — şu an bloke ediyorum. Tamam. Tanımadığınız bir ödeme fark ettiniz mi?',
       choices: [
         { id: 'yes_strange', intentionTr: 'Tanımadığın bir ödeme olduğunu söyle', tone: 'direct', difficulty: 'hard', xp: 18,
-          sentence: 'Sí, de hecho — hay un pago que definitivamente yo no hice.',
+          sentence: 'Sí, de hecho, hay un pago que definitivamente yo no hice.',
           translation: 'Evet, aslında — kesinlikle benim yapmadığım bir ödeme var.',
           altAccepted: ['Hay un pago que no hice', 'Sí veo un cargo que no es mío'],
           next: 'dispute', relationshipEffect: 1 },

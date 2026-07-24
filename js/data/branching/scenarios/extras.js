@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // Extra scenarios that add depth to existing environments (hotel, airport,
 // restaurant) so each place has more than one thing to do.
@@ -47,7 +47,7 @@ export const hotelAmenities = createScenario({
           altAccepted: ['Eso es todo gracias', 'No gracias eso es todo'],
           next: 'end_helped', relationshipEffect: 1 },
         { id: 'ask_taxi', intentionTr: 'Taksi çağırmalarını iste', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'De hecho, sí — ¿me podría pedir un taxi para las ocho?',
+          sentence: 'De hecho, sí, ¿me podría pedir un taxi para las ocho?',
           translation: 'Aslında, saat sekiz için bana bir taksi çağırır mısınız?',
           altAccepted: ['Me puede pedir un taxi para las ocho', 'Puede reservarme un taxi a las ocho'],
           next: 'end_helped', relationshipEffect: 1 }
@@ -84,7 +84,7 @@ export const passportControl = createScenario({
           altAccepted: ['Vengo de vacaciones dos semanas', 'De vacaciones por dos semanas'],
           next: 'where_staying' },
         { id: 'business', intentionTr: 'İş için geldiğini söyle', tone: 'formal', difficulty: 'hard', xp: 18,
-          sentence: 'Vengo por negocios — una conferencia de tres días.',
+          sentence: 'Vengo por negocios, una conferencia de tres días.',
           translation: 'İş için buradayım — üç günlük bir konferans.',
           altAccepted: ['Vengo a una conferencia de negocios', 'Por negocios una conferencia de tres días'],
           next: 'where_staying' }
@@ -155,7 +155,7 @@ export const restaurantBill = createScenario({
           altAccepted: ['Sí la tarta de chocolate por favor', 'Me tomo la tarta de chocolate'],
           next: 'pay_how', relationshipEffect: 1 },
         { id: 'just_bill', intentionTr: 'Yok, sadece hesabı iste', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Quizás la próxima vez — solo la cuenta, por favor.',
+          sentence: 'Quizás la próxima vez, solo la cuenta, por favor.',
           translation: 'Belki bir dahaki sefere — sadece hesap, lütfen.',
           altAccepted: ['Solo la cuenta por favor', 'No gracias solo la cuenta'],
           next: 'pay_how' }
@@ -172,7 +172,7 @@ export const restaurantBill = createScenario({
           altAccepted: ['Con tarjeta y un recibo por favor', 'Tarjeta por favor con recibo'],
           next: 'end_paid' },
         { id: 'cash_tip', intentionTr: 'Nakit öde ve bahşiş bırak', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'En efectivo, por favor. Quédese con el cambio — el servicio fue genial.',
+          sentence: 'En efectivo, por favor. Quédese con el cambio, el servicio fue genial.',
           translation: 'Nakit, lütfen. Üstü kalsın — hizmet harikaydı.',
           altAccepted: ['En efectivo quédese el cambio', 'Pago en efectivo quédese con el cambio'],
           next: 'end_paid', relationshipEffect: 2 }

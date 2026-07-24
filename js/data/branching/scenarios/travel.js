@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Train station: buying a ticket (A2) ─────────────────────────────────────
 export const trainTicket = createScenario({
@@ -61,7 +61,7 @@ export const trainTicket = createScenario({
           altAccepted: ['Solo ida por favor', 'Un billete de ida gracias'],
           next: 'end_ticket' },
         { id: 'ask_discount', intentionTr: 'İndirim olup olmadığını sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'Ida y vuelta — ¿y hay algún descuento de estudiante?',
+          sentence: 'Ida y vuelta, ¿y hay algún descuento de estudiante?',
           translation: 'Gidiş-dönüş — ve öğrenci indirimi var mı?',
           altAccepted: ['Ida y vuelta y hay descuento de estudiante', 'Tienen descuento para estudiantes'],
           next: 'discount' }
@@ -120,7 +120,7 @@ export const taxiRide = createScenario({
       translation: 'Sorun değil. Bu gece trafik biraz yoğun — aceleniz var mı, yoksa manzaralı yoldan mı gideyim?',
       choices: [
         { id: 'fast', intentionTr: 'Acelen olduğunu söyle', tone: 'direct', difficulty: 'medium', xp: 14,
-          sentence: 'Tengo prisa — por el camino más rápido, por favor.',
+          sentence: 'Tengo prisa, por el camino más rápido, por favor.',
           translation: 'Acelem var — en hızlı yol, lütfen.',
           altAccepted: ['El camino más rápido por favor tengo prisa', 'La ruta más rápida llevo prisa'],
           next: 'end_arrived' },
@@ -142,7 +142,7 @@ export const taxiRide = createScenario({
           altAccepted: ['Estoy de visita unos días', 'De visita unos días es preciosa'],
           next: 'recommend' },
         { id: 'quiet', intentionTr: 'Kibarca sessiz kalmayı tercih et', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'De visita. Pero ha sido un día largo — ¿le importa si descanso un poco?',
+          sentence: 'De visita. Pero ha sido un día largo, ¿le importa si descanso un poco?',
           translation: 'Sadece ziyaret. Ama uzun bir gündü — dinlensem sorun olur mu?',
           altAccepted: ['Le importa si descanso día largo', 'Fue un día largo puedo cerrar los ojos'],
           next: 'end_arrived', relationshipEffect: 1 }

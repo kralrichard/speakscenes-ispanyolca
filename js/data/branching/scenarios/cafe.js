@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Café order (A1) ─────────────────────────────────────────────────────────
 export const cafeOrder = createScenario({
@@ -93,7 +93,7 @@ export const cafeMeetup = createScenario({
       translation: 'Aman tanrım — bu gerçekten sen misin? Ne kadar oldu, beş yıl mı?',
       choices: [
         { id: 'warm', intentionTr: 'Sıcak bir şekilde karşılık ver', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: '¡Hannah! No me lo puedo creer — ¡estás exactamente igual!',
+          sentence: '¡Hannah! No me lo puedo creer, ¡estás exactamente igual!',
           translation: 'Hannah! İnanamıyorum — tıpatıp aynısın!',
           altAccepted: ['No me lo puedo creer estás igual', 'Hannah qué alegría verte'],
           next: 'whats_new', relationshipEffect: 2 },
@@ -115,7 +115,7 @@ export const cafeMeetup = createScenario({
           altAccepted: ['Monté mi propio negocio hace dos años', 'Llevo mi propio negocio ahora'],
           next: 'plans', relationshipEffect: 1 },
         { id: 'travel', intentionTr: 'Seyahatlerinden bahset', tone: 'friendly', difficulty: 'hard', xp: 18,
-          sentence: 'La verdad, he viajado mucho — acabo de volver de Japón.',
+          sentence: 'La verdad, he viajado mucho, acabo de volver de Japón.',
           translation: 'Açıkçası çok seyahat ediyordum — daha yeni Japonya’dan döndüm.',
           altAccepted: ['He viajado mucho acabo de volver de Japón', 'Acabo de volver de Japón'],
           next: 'plans' }

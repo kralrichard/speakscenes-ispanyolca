@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Supermarket: finding items (A2) ─────────────────────────────────────────
 export const supermarketHelp = createScenario({
@@ -99,7 +99,7 @@ export const clothingReturn = createScenario({
           altAccepted: ['Quiero devolver esta chaqueta no me queda', 'Quería devolver esto es la talla equivocada'],
           next: 'receipt' },
         { id: 'return_faulty', intentionTr: 'Kusurlu olduğu için iade etmek istediğini söyle', tone: 'direct', difficulty: 'hard', xp: 18,
-          sentence: 'Necesito devolver esta chaqueta — la cremallera está rota.',
+          sentence: 'Necesito devolver esta chaqueta, la cremallera está rota.',
           translation: 'Bu ceketi iade etmem gerekiyor — fermuarı bozuk.',
           altAccepted: ['La cremallera está rota quiero devolverla', 'Esta chaqueta tiene la cremallera rota'],
           next: 'faulty' }
@@ -128,7 +128,7 @@ export const clothingReturn = createScenario({
       translation: 'Ah, çok üzgünüm! Kusurlu ürün — tam para iadesine hakkınız var. Fiş mi yoksa ödediğiniz kart mı var?',
       choices: [
         { id: 'card_faulty', intentionTr: 'Kartla ödediğini söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Pagué con tarjeta — aquí está.',
+          sentence: 'Pagué con tarjeta, aquí está.',
           translation: 'Kartla ödemiştim — işte burada.',
           altAccepted: ['Con tarjeta aquí está', 'Pagué con tarjeta tenga'],
           next: 'refund_done', relationshipEffect: 1 },

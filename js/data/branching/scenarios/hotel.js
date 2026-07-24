@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Hotel check-in (A2) — the flagship: 4 decision points, 4 endings ────────
 export const hotelCheckin = createScenario({
@@ -61,7 +61,7 @@ export const hotelCheckin = createScenario({
           altAccepted: ['Sí por favor pago con tarjeta', 'Claro con tarjeta por favor'],
           next: 'room_ready', relationshipEffect: 1 },
         { id: 'ask_late', intentionTr: 'Geç çıkış isteyip istemediğini sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'Una cosa más — ¿sería posible una salida tardía?',
+          sentence: 'Una cosa más, ¿sería posible una salida tardía?',
           translation: 'Bir şey daha — geç çıkış mümkün olur mu?',
           altAccepted: ['Es posible una salida tardía', 'Podría salir más tarde'],
           next: 'late_checkout' }
@@ -102,7 +102,7 @@ export const hotelCheckin = createScenario({
       translation: 'Merhaba, ben nöbetçi müdürüm. Oda fiyatını düşüremem ama ücretsiz kahvaltı ekleyebilirim. Olur mu?',
       choices: [
         { id: 'accept_deal', intentionTr: 'Teklifi kabul et', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'Muy amable — sí, tomo la habitación con desayuno.',
+          sentence: 'Muy amable, sí, tomo la habitación con desayuno.',
           translation: 'Çok naziksiniz — evet, odayı kahvaltıyla alıyorum.',
           altAccepted: ['Sí la tomo con desayuno', 'Me parece bien tomo la habitación'],
           next: 'room_ready', relationshipEffect: 2 },

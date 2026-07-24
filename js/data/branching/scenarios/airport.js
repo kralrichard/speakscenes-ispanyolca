@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js?v=6';
+import { createScenario } from '../scenarioSchema.js?v=7';
 
 // ── Airport check-in (A2) ───────────────────────────────────────────────────
 export const airportCheckin = createScenario({
@@ -17,7 +17,7 @@ export const airportCheckin = createScenario({
       translation: 'Günaydın! Pasaportunuzu ve rezervasyonunuzu görebilir miyim, lütfen?',
       choices: [
         { id: 'give_docs', intentionTr: 'Belgeleri ver', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Aquí tiene — mi pasaporte y la reserva en el teléfono.',
+          sentence: 'Aquí tiene, mi pasaporte y la reserva en el teléfono.',
           translation: 'Buyurun — pasaportum ve telefondaki rezervasyonum.',
           altAccepted: ['Aquí está mi pasaporte y la reserva', 'Tenga pasaporte y reserva'],
           next: 'bags', relationshipEffect: 1 },
@@ -162,7 +162,7 @@ export const missingFlight = createScenario({
       translation: 'Rötar havayolunun hatası olduğundan yeniden rezervasyon ücreti yok. Ama o uçuşta sadece orta koltuk kaldı. Yine de ister misiniz?',
       choices: [
         { id: 'take_middle', intentionTr: 'Orta koltuğu kabul et', tone: 'casual', difficulty: 'easy', xp: 10,
-          sentence: 'Un asiento del medio está bien — solo quiero llegar.',
+          sentence: 'Un asiento del medio está bien, solo quiero llegar.',
           translation: 'Orta koltuk uygun — sadece oraya varmak istiyorum.',
           altAccepted: ['El asiento del medio está bien', 'Tomo el del medio'],
           next: 'rebooked_sooner' },
